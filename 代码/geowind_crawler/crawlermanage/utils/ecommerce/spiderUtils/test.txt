@@ -1,0 +1,17 @@
+[sec_a]
+a_key1 = 20
+a_key2 = 10
+
+[sec_b]
+b_key1 = 121
+b_key2 = b_value2
+b_key3 = new-$r
+b_key4 = 127.0.0.1
+b_newkey = new-value
+
+[a_new_section]
+new_key = new_value1
+
+[taobao.com]
+new_key = {'filter': ['0-11-2', {2: 1}]}
+

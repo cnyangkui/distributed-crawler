@@ -1,0 +1,22 @@
+写明一些代码修改的地方，如下：
+1、phantomjs位置
+原因：在linux中，phantomjs默认位置在/usr/bin下，但macos在/usr/local/bin下，
+所以需要对driver = webdriver.PhantomJS()做修改：
+
+
+文件名                            修改数量     方法名
+parser_util.py                   4处         get_soup_by_selenium,get_soup_by_selenium_without_script,get_soup_by_selenium_with_sleep,get_webdriver
+
+selenium_bath_parser.py          1处         get_next_urlList_by_firstpage_url
+
+[Mac OS]
+driver = webdriver.PhantomJS('/usr/local/bin/phantomjs') 或
+driver = webdriver.PhantomJS(executable_path="/usr/local/bin/phantomjs")
+
+[Linux]
+(Ubuntu,Debian)
+driver = webdriver.PhantomJS()
+
+
+[Windows]
+微测试

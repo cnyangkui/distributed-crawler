@@ -1,0 +1,360 @@
+2017-05-27 11:22:01 [scrapy.utils.log] INFO: Scrapy 1.4.0 started (bot: scrapybot)
+2017-05-27 11:22:01 [scrapy.utils.log] INFO: Overridden settings: {'DUPEFILTER_CLASS': 'scrapy_redis.dupefilter.RFPDupeFilter', 'SCHEDULER': 'scrapy_redis.scheduler.Scheduler', 'LOG_FILE': 'log.txt', 'COOKIES_ENABLED': False, 'NEWSPIDER_MODULE': 'geospider.spiders', 'SPIDER_MODULES': ['geospider.spiders']}
+2017-05-27 11:22:01 [scrapy.middleware] INFO: Enabled extensions:
+['scrapy.extensions.telnet.TelnetConsole',
+ 'scrapy.extensions.logstats.LogStats',
+ 'scrapy.extensions.corestats.CoreStats',
+ 'scrapy.extensions.memusage.MemoryUsage']
+2017-05-27 11:22:01 [news] INFO: Reading start URLs from redis key 'news:start_urls' (batch size: 16, encoding: utf-8
+2017-05-27 11:22:01 [scrapy.middleware] INFO: Enabled downloader middlewares:
+['scrapy.downloadermiddlewares.httpauth.HttpAuthMiddleware',
+ 'scrapy.downloadermiddlewares.downloadtimeout.DownloadTimeoutMiddleware',
+ 'scrapy.downloadermiddlewares.defaultheaders.DefaultHeadersMiddleware',
+ 'scrapy.downloadermiddlewares.useragent.UserAgentMiddleware',
+ 'scrapy.downloadermiddlewares.retry.RetryMiddleware',
+ 'scrapy.downloadermiddlewares.redirect.MetaRefreshMiddleware',
+ 'scrapy.downloadermiddlewares.httpcompression.HttpCompressionMiddleware',
+ 'scrapy.downloadermiddlewares.redirect.RedirectMiddleware',
+ 'scrapy.downloadermiddlewares.httpproxy.HttpProxyMiddleware',
+ 'scrapy.downloadermiddlewares.stats.DownloaderStats']
+2017-05-27 11:22:01 [scrapy.middleware] INFO: Enabled spider middlewares:
+['scrapy.spidermiddlewares.httperror.HttpErrorMiddleware',
+ 'scrapy.spidermiddlewares.offsite.OffsiteMiddleware',
+ 'scrapy.spidermiddlewares.referer.RefererMiddleware',
+ 'scrapy.spidermiddlewares.urllength.UrlLengthMiddleware',
+ 'scrapy.spidermiddlewares.depth.DepthMiddleware']
+2017-05-27 11:22:01 [scrapy.middleware] INFO: Enabled item pipelines:
+['geospider.mongodb_pipelines.MongoDBPipeline']
+2017-05-27 11:22:01 [scrapy.core.engine] INFO: Spider opened
+2017-05-27 11:22:01 [scrapy.extensions.logstats] INFO: Crawled 0 pages (at 0 pages/min), scraped 0 items (at 0 items/min)
+2017-05-27 11:22:01 [scrapy.extensions.telnet] DEBUG: Telnet console listening on 127.0.0.1:6024
+2017-05-27 11:22:01 [news] DEBUG: Read 1 requests from 'news:start_urls'
+2017-05-27 11:22:01 [scrapy.core.engine] DEBUG: Crawled (200) <GET http://news.sohu.com/> (referer: None)
+2017-05-27 11:22:02 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'tv.sohu.com': <GET http://tv.sohu.com/20170420/n489602817.shtml>
+2017-05-27 11:22:02 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'house.focus.cn': <GET https://house.focus.cn/zixun/099572abd1caf343.html>
+2017-05-27 11:22:02 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'my.tv.sohu.com': <GET http://my.tv.sohu.com/pl/9158407/89483667.shtml>
+2017-05-27 11:22:02 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to '2sc.sohu.com': <GET http://2sc.sohu.com/bj/auto1-focus1/a0b3.6_0c0d0e0f0g0h2j0k0m0n0/>
+2017-05-27 11:22:02 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'db.auto.sohu.com': <GET http://db.auto.sohu.com/searchterm.sip?paixu=0&item=price:-5>
+2017-05-27 11:22:02 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'news.sohu.com': <GET http://news.sohu.com/20161114/n473127950.shtml>
+2017-05-27 11:22:02 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'www.sohu.com': <GET http://www.sohu.com/a/143735386_456843?loc=1&focus_pic=0>
+2017-05-27 11:22:02 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'q.stock.sohu.com': <GET http://q.stock.sohu.com/cn/000063/index.shtml>
+2017-05-27 11:22:02 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'www.ceweekly.cn': <GET http://www.ceweekly.cn/magazine/ceweekly/2013/40/>
+2017-05-27 11:22:02 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'mil.sohu.com': <GET http://mil.sohu.com/s2014/8008/s403094591/index.shtml>
+2017-05-27 11:22:02 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'gongyi.sohu.com': <GET http://gongyi.sohu.com/20170525/n494394901.shtml>
+2017-05-27 11:22:02 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'mt.sohu.com': <GET http://mt.sohu.com/it/d20170129/125270202_463991.shtml>
+2017-05-27 11:22:02 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'pinglun.sohu.com': <GET http://pinglun.sohu.com/>
+2017-05-27 11:22:02 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'sports.sohu.com': <GET http://sports.sohu.com/nba.shtml>
+2017-05-27 11:22:02 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'vip.book.sohu.com': <GET http://vip.book.sohu.com/book/80952/>
+2017-05-27 11:22:02 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'business.sohu.com': <GET http://business.sohu.com/997>
+2017-05-27 11:22:02 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'www.nfpeople.com': <GET http://www.nfpeople.com/>
+2017-05-27 11:22:02 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'db.money.sohu.com': <GET http://db.money.sohu.com/bank/view/757/00077757.html>
+2017-05-27 11:22:02 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'www.xixi123.com': <GET http://www.xixi123.com/shehui/31290.html?dsy>
+2017-05-27 11:22:02 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'roll.sohu.com': <GET http://roll.sohu.com/>
+2017-05-27 11:22:02 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'pic.history.sohu.com': <GET http://pic.history.sohu.com/group-621896.shtml>
+2017-05-27 11:22:02 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'www.jfdaily.com': <GET http://www.jfdaily.com/>
+2017-05-27 11:22:02 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'history.sohu.com': <GET http://history.sohu.com/20161107/n472461803.shtml>
+2017-05-27 11:22:02 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'www.cankaoxiaoxi.com': <GET http://www.cankaoxiaoxi.com/>
+2017-05-27 11:22:02 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'cul.sohu.com': <GET http://cul.sohu.com/20161230/n477365287.shtml>
+2017-05-27 11:22:02 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'auto.sohu.com': <GET http://auto.sohu.com/20170516/n493149837.shtml>
+2017-05-27 11:22:02 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'www.chinanews.com': <GET http://www.chinanews.com/>
+2017-05-27 11:22:02 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'stock.sohu.com': <GET http://stock.sohu.com>
+2017-05-27 11:22:02 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'www.tibet.cn': <GET http://www.tibet.cn/>
+2017-05-27 11:22:02 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'www.cnhubei.com': <GET http://www.cnhubei.com/>
+2017-05-27 11:22:02 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'www.dayoo.com': <GET http://www.dayoo.com/>
+2017-05-27 11:22:02 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'www.ce.cn': <GET http://www.ce.cn/>
+2017-05-27 11:22:02 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'baobao.sohu.com': <GET http://baobao.sohu.com/>
+2017-05-27 11:22:02 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'www.focus.cn': <GET http://www.focus.cn/>
+2017-05-27 11:22:02 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'it.sohu.com': <GET http://it.sohu.com/20161019/n470631703.shtml>
+2017-05-27 11:22:02 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'www.youth.cn': <GET http://www.youth.cn/>
+2017-05-27 11:22:02 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'www.iqilu.com': <GET http://www.iqilu.com/>
+2017-05-27 11:22:02 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'www.nen.com.cn': <GET http://www.nen.com.cn/>
+2017-05-27 11:22:02 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'media.sohu.com': <GET http://media.sohu.com/20170315/n483375901.shtml>
+2017-05-27 11:22:02 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'www.iyaxin.com': <GET http://www.iyaxin.com/>
+2017-05-27 11:22:02 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'ad.sohu.com': <GET http://ad.sohu.com/>
+2017-05-27 11:22:02 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'pic.sohu.com': <GET http://pic.sohu.com/>
+2017-05-27 11:22:02 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'zhuanti.focus.cn': <GET http://zhuanti.focus.cn/bj/2017/2017lvyoukanfangpc/>
+2017-05-27 11:22:02 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'chihe.sohu.com': <GET http://chihe.sohu.com/>
+2017-05-27 11:22:02 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'caipiao.sohu.com': <GET http://caipiao.sohu.com/20170526/n494540822.shtml>
+2017-05-27 11:22:02 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'yule.sohu.com': <GET http://yule.sohu.com/20170426/n490738286.shtml>
+2017-05-27 11:22:02 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'mp.sohu.com': <GET http://mp.sohu.com/profile?xpt=bGJ5YV8xODIxMDNAc29odS5jb20=>
+2017-05-27 11:22:02 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'home.focus.cn': <GET http://home.focus.cn/article/3a1f57b4da205d51814eacc0c517396e.html?source=news&pos=2.2>
+2017-05-27 11:22:02 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'club.news.sohu.com': <GET http://club.news.sohu.com/zz2284/thread/40lf4um0ez2>
+2017-05-27 11:22:02 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'police.news.sohu.com': <GET http://police.news.sohu.com/>
+2017-05-27 11:22:02 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'bbs.focus.cn': <GET https://bbs.focus.cn/bj/29086/6459e5e95f74f6a2.html>
+2017-05-27 11:22:02 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'www.dahe.cn': <GET http://www.dahe.cn/>
+2017-05-27 11:22:02 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'hr.sohu.com': <GET http://hr.sohu.com>
+2017-05-27 11:22:02 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'www.xinhuanet.com': <GET http://www.xinhuanet.com/>
+2017-05-27 11:22:02 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'pic.cul.sohu.com': <GET http://pic.cul.sohu.com/group-449811.shtml>
+2017-05-27 11:22:02 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'www.jxnews.com.cn': <GET http://www.jxnews.com.cn/>
+2017-05-27 11:22:02 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'home.sohu.com': <GET http://home.sohu.com>
+2017-05-27 11:22:02 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'pic.yule.sohu.com': <GET http://pic.yule.sohu.com/cate-915115.shtml>
+2017-05-27 11:22:02 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'www.people.com.cn': <GET http://www.people.com.cn/>
+2017-05-27 11:22:02 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'view.sohu.com': <GET http://view.sohu.com/>
+2017-05-27 11:22:02 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'k.sohu.com': <GET http://k.sohu.com/>
+2017-05-27 11:22:02 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'esf.focus.cn': <GET http://esf.focus.cn/>
+2017-05-27 11:22:02 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'www.lzlw.cn': <GET http://www.lzlw.cn/index.php>
+2017-05-27 11:22:02 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'lz.book.sohu.com': <GET http://lz.book.sohu.com/serialize-id-15042.html>
+2017-05-27 11:22:02 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'dongjian.sohu.com': <GET http://dongjian.sohu.com/djpc1062/>
+2017-05-27 11:22:02 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'epaper.lnd.com.cn': <GET http://epaper.lnd.com.cn/index.aspx?paperType=lswb>
+2017-05-27 11:22:02 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'www.zjol.com.cn': <GET http://www.zjol.com.cn/>
+2017-05-27 11:22:02 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'www.morningpost.com.cn': <GET http://www.morningpost.com.cn/>
+2017-05-27 11:22:02 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'pic.news.sohu.com': <GET http://pic.news.sohu.com/cate-914883.shtml>
+2017-05-27 11:22:02 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'img.sh.sohu.com': <GET http://img.sh.sohu.com/caftzzjbs/20170515/index.html>
+2017-05-27 11:22:02 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'www.huanqiu.com': <GET http://www.huanqiu.com/>
+2017-05-27 11:22:02 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'www.sxrb.com': <GET http://www.sxrb.com/>
+2017-05-27 11:22:02 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'gov.news.sohu.com': <GET http://gov.news.sohu.com/20161109/n472678439.shtml>
+2017-05-27 11:22:02 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'www.qx162.com': <GET http://www.qx162.com/>
+2017-05-27 11:22:02 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'travel.sohu.com': <GET http://travel.sohu.com/>
+2017-05-27 11:22:02 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'www.cyol.com': <GET http://www.cyol.com/>
+2017-05-27 11:22:02 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'star.news.sohu.com': <GET http://star.news.sohu.com/>
+2017-05-27 11:22:02 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'www.cncnews.cn': <GET http://www.cncnews.cn/>
+2017-05-27 11:22:02 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'women.sohu.com': <GET http://women.sohu.com/>
+2017-05-27 11:22:02 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'shangye.focus.cn': <GET http://shangye.focus.cn/>
+2017-05-27 11:22:02 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'pinyin.sogou.com': <GET http://pinyin.sogou.com/>
+2017-05-27 11:22:02 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'corp.sohu.com': <GET http://corp.sohu.com/s2007/copyright/>
+2017-05-27 11:22:02 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'globalsurvey.sojump.com': <GET https://globalsurvey.sojump.com/jq/11889549.aspx>
+2017-05-27 11:22:02 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'news.cyol.com': <GET http://news.cyol.com/content/2016-03/04/content_12250240.htm>
+2017-05-27 11:22:02 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'goche.auto.sohu.com': <GET http://goche.auto.sohu.com/calc_nu.html>
+2017-05-27 11:22:02 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'investors.sohu.com': <GET http://investors.sohu.com/>
+2017-05-27 11:22:02 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'www.fjsen.com': <GET http://www.fjsen.com/>
+2017-05-27 11:22:02 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'travel.focus.cn': <GET http://travel.focus.cn/>
+2017-05-27 11:22:02 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'zqb.cyol.com': <GET http://zqb.cyol.com/>
+2017-05-27 11:22:02 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'pic.sports.sohu.com': <GET http://pic.sports.sohu.com/group-787714.shtml#0>
+2017-05-27 11:22:02 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'www.infzm.com': <GET http://www.infzm.com/>
+2017-05-27 11:22:02 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'news.hebei.com.cn': <GET http://news.hebei.com.cn/>
+2017-05-27 11:22:02 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'pay.sohu.com': <GET http://pay.sohu.com/>
+2017-05-27 11:22:02 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'pic.book.sohu.com': <GET http://pic.book.sohu.com/group-561199.shtml>
+2017-05-27 11:22:02 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'chanye.focus.cn': <GET http://chanye.focus.cn/>
+2017-05-27 11:22:02 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'fashion.sohu.com': <GET http://fashion.sohu.com/>
+2017-05-27 11:22:02 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'www.globalpeople.com.cn': <GET http://www.globalpeople.com.cn/>
+2017-05-27 11:22:02 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'cbachina.sports.sohu.com': <GET http://cbachina.sports.sohu.com/>
+2017-05-27 11:22:02 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'www.chinatibetnews.com': <GET http://www.chinatibetnews.com/>
+2017-05-27 11:22:02 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'www.gywb.com.cn': <GET http://www.gywb.com.cn/>
+2017-05-27 11:22:02 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'www.lwdf.cn': <GET http://www.lwdf.cn/wwwroot/dfzk/>
+2017-05-27 11:22:02 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'go.sohu.com': <GET http://go.sohu.com/2017/sportsfamilyday/?qq-pf-to=pcqq.c2c>
+2017-05-27 11:22:02 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'learning.sohu.com': <GET http://learning.sohu.com/>
+2017-05-27 11:22:02 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'www.kaiwind.com': <GET http://www.kaiwind.com/>
+2017-05-27 11:22:02 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'health.sohu.com': <GET http://health.sohu.com/>
+2017-05-27 11:22:02 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'blog.sohu.com': <GET http://blog.sohu.com/roll>
+2017-05-27 11:22:02 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'm.sohu.com': <GET http://m.sohu.com/>
+2017-05-27 11:22:02 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'astro.women.sohu.com': <GET http://astro.women.sohu.com/20170526/n494545740.shtml>
+2017-05-27 11:22:02 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'sitemap.sohu.com': <GET http://sitemap.sohu.com/>
+2017-05-27 11:22:02 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'www.cqwb.com.cn': <GET http://www.cqwb.com.cn/>
+2017-05-27 11:22:02 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'sohucallcenter.blog.sohu.com': <GET http://sohucallcenter.blog.sohu.com/>
+2017-05-27 11:22:02 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'dealer.auto.sohu.com': <GET http://dealer.auto.sohu.com/dealermap/index.shtml>
+2017-05-27 11:22:02 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'www.lnd.com.cn': <GET http://www.lnd.com.cn/>
+2017-05-27 11:22:02 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'money.sohu.com': <GET http://money.sohu.com/>
+2017-05-27 11:22:02 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'www.hsw.cn': <GET http://www.hsw.cn/>
+2017-05-27 11:22:02 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'xtopfly.com': <GET http://xtopfly.com/>
+2017-05-27 11:22:02 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'www.caijing.com.cn': <GET http://www.caijing.com.cn/>
+2017-05-27 11:22:02 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'www.cssn.cn': <GET http://www.cssn.cn/>
+2017-05-27 11:22:02 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'cms5.sohu.com': <GET http://cms5.sohu.com/cms_page/template/jsp/template405832.jsp?id=405832&view=3&filter=noad&ENTITYID=143746642&userId=12855&sign=71cec64cb885333d28bbf8fb1fb45595>
+2017-05-27 11:22:02 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'www.scol.com.cn': <GET http://www.scol.com.cn/>
+2017-05-27 11:22:02 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'dz.xdkb.net': <GET http://dz.xdkb.net/>
+2017-05-27 11:22:02 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'www.guancha.cn': <GET http://www.guancha.cn/>
+2017-05-27 11:22:02 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'www.changjiangtimes.com': <GET http://www.changjiangtimes.com/>
+2017-05-27 11:22:02 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'f.sohu.com': <GET http://f.sohu.com>
+2017-05-27 11:22:02 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'www.qhnews.com': <GET http://www.qhnews.com/>
+2017-05-27 11:22:19 [scrapy.crawler] INFO: Received SIG_SETMASK, shutting down gracefully. Send again to force 
+2017-05-27 11:22:19 [scrapy.core.engine] INFO: Closing spider (shutdown)
+2017-05-27 11:22:19 [scrapy.statscollectors] INFO: Dumping Scrapy stats:
+{'downloader/request_bytes': 211,
+ 'downloader/request_count': 1,
+ 'downloader/request_method_count/GET': 1,
+ 'downloader/response_bytes': 58967,
+ 'downloader/response_count': 1,
+ 'downloader/response_status_count/200': 1,
+ 'finish_reason': 'shutdown',
+ 'finish_time': datetime.datetime(2017, 5, 27, 3, 22, 19, 377030),
+ 'log_count/DEBUG': 128,
+ 'log_count/INFO': 9,
+ 'memusage/max': 1177645056,
+ 'memusage/startup': 1177645056,
+ 'offsite/domains': 125,
+ 'offsite/filtered': 753,
+ 'request_depth_max': 1,
+ 'response_received_count': 1,
+ 'scheduler/dequeued/redis': 1,
+ 'scheduler/enqueued/redis': 1,
+ 'start_time': datetime.datetime(2017, 5, 27, 3, 22, 1, 848012)}
+2017-05-27 11:22:19 [scrapy.core.engine] INFO: Spider closed (shutdown)
+2017-05-27 11:22:27 [scrapy.utils.log] INFO: Scrapy 1.4.0 started (bot: scrapybot)
+2017-05-27 11:22:27 [scrapy.utils.log] INFO: Overridden settings: {'SPIDER_MODULES': ['geospider.spiders'], 'DUPEFILTER_CLASS': 'scrapy_redis.dupefilter.RFPDupeFilter', 'LOG_FILE': 'log.txt', 'NEWSPIDER_MODULE': 'geospider.spiders', 'SCHEDULER': 'scrapy_redis.scheduler.Scheduler', 'COOKIES_ENABLED': False}
+2017-05-27 11:22:27 [scrapy.middleware] INFO: Enabled extensions:
+['scrapy.extensions.corestats.CoreStats',
+ 'scrapy.extensions.logstats.LogStats',
+ 'scrapy.extensions.telnet.TelnetConsole',
+ 'scrapy.extensions.memusage.MemoryUsage']
+2017-05-27 11:22:27 [news] INFO: Reading start URLs from redis key 'news:start_urls' (batch size: 16, encoding: utf-8
+2017-05-27 11:22:27 [scrapy.middleware] INFO: Enabled downloader middlewares:
+['scrapy.downloadermiddlewares.httpauth.HttpAuthMiddleware',
+ 'scrapy.downloadermiddlewares.downloadtimeout.DownloadTimeoutMiddleware',
+ 'scrapy.downloadermiddlewares.defaultheaders.DefaultHeadersMiddleware',
+ 'scrapy.downloadermiddlewares.useragent.UserAgentMiddleware',
+ 'scrapy.downloadermiddlewares.retry.RetryMiddleware',
+ 'scrapy.downloadermiddlewares.redirect.MetaRefreshMiddleware',
+ 'scrapy.downloadermiddlewares.httpcompression.HttpCompressionMiddleware',
+ 'scrapy.downloadermiddlewares.redirect.RedirectMiddleware',
+ 'scrapy.downloadermiddlewares.httpproxy.HttpProxyMiddleware',
+ 'scrapy.downloadermiddlewares.stats.DownloaderStats']
+2017-05-27 11:22:27 [scrapy.middleware] INFO: Enabled spider middlewares:
+['scrapy.spidermiddlewares.httperror.HttpErrorMiddleware',
+ 'scrapy.spidermiddlewares.offsite.OffsiteMiddleware',
+ 'scrapy.spidermiddlewares.referer.RefererMiddleware',
+ 'scrapy.spidermiddlewares.urllength.UrlLengthMiddleware',
+ 'scrapy.spidermiddlewares.depth.DepthMiddleware']
+2017-05-27 11:22:27 [scrapy.middleware] INFO: Enabled item pipelines:
+['geospider.mongodb_pipelines.MongoDBPipeline']
+2017-05-27 11:22:27 [scrapy.core.engine] INFO: Spider opened
+2017-05-27 11:22:27 [scrapy.extensions.logstats] INFO: Crawled 0 pages (at 0 pages/min), scraped 0 items (at 0 items/min)
+2017-05-27 11:22:27 [scrapy.extensions.telnet] DEBUG: Telnet console listening on 127.0.0.1:6023
+2017-05-27 11:22:27 [news] DEBUG: Read 1 requests from 'news:start_urls'
+2017-05-27 11:22:28 [scrapy.core.engine] DEBUG: Crawled (200) <GET http://news.sohu.com/> (referer: None)
+2017-05-27 11:22:28 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'news.sohu.com': <GET http://news.sohu.com/20161114/n473075343.shtml>
+2017-05-27 11:22:28 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'www.sohu.com': <GET http://www.sohu.com/a/140838041_146550>
+2017-05-27 11:22:28 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to '2sc.sohu.com': <GET http://2sc.sohu.com/buycar/a0b10_20c0d0e0f0g0h0j0k0m0n0/?pvid=7a76fc1d4e6f2609>
+2017-05-27 11:22:28 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'roll.sohu.com': <GET http://roll.sohu.com/>
+2017-05-27 11:22:28 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'my.tv.sohu.com': <GET http://my.tv.sohu.com/pl/8354988/89469776.shtml>
+2017-05-27 11:22:28 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'cul.sohu.com': <GET http://cul.sohu.com/20161230/n477364965.shtml>
+2017-05-27 11:22:28 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'lz.book.sohu.com': <GET http://lz.book.sohu.com/serialize-id-15809.html>
+2017-05-27 11:22:28 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'club.news.sohu.com': <GET http://club.news.sohu.com/zz2284/threads>
+2017-05-27 11:22:28 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'db.auto.sohu.com': <GET http://db.auto.sohu.com/searchterm.sip?paixu=0&item=price:10-15>
+2017-05-27 11:22:28 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'vip.book.sohu.com': <GET http://vip.book.sohu.com/book/148113/>
+2017-05-27 11:22:28 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'travel.sohu.com': <GET http://travel.sohu.com>
+2017-05-27 11:22:28 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'esf.focus.cn': <GET http://esf.focus.cn/>
+2017-05-27 11:22:28 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'mil.sohu.com': <GET http://mil.sohu.com/>
+2017-05-27 11:22:28 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'house.focus.cn': <GET http://house.focus.cn/search/2944_0_0_0_0_0_0_0_0.html>
+2017-05-27 11:22:28 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'it.sohu.com': <GET http://it.sohu.com/zimeiti/index.shtml>
+2017-05-27 11:22:28 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'pic.book.sohu.com': <GET http://pic.book.sohu.com/group-561199.shtml>
+2017-05-27 11:22:28 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'www.guancha.cn': <GET http://www.guancha.cn/>
+2017-05-27 11:22:28 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'home.sohu.com': <GET http://home.sohu.com/>
+2017-05-27 11:22:28 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'www.cqwb.com.cn': <GET http://www.cqwb.com.cn/>
+2017-05-27 11:22:28 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'tv.sohu.com': <GET http://tv.sohu.com/20170527/n494676767.shtml>
+2017-05-27 11:22:28 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'www.ceweekly.cn': <GET http://www.ceweekly.cn/magazine/ceweekly/2013/40/>
+2017-05-27 11:22:28 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'business.sohu.com': <GET http://business.sohu.com/998>
+2017-05-27 11:22:28 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'home.focus.cn': <GET http://home.focus.cn/article/c7379db4bd61aea7fbf1197be1cdc1a2.html?source=news&pos=1>
+2017-05-27 11:22:28 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'pic.sports.sohu.com': <GET http://pic.sports.sohu.com/group-787714.shtml#0>
+2017-05-27 11:22:28 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'blog.sohu.com': <GET http://blog.sohu.com/roll>
+2017-05-27 11:22:28 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'history.sohu.com': <GET http://history.sohu.com/20161102/n472101936.shtml>
+2017-05-27 11:22:28 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'k.sohu.com': <GET http://k.sohu.com/>
+2017-05-27 11:22:28 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'www.scol.com.cn': <GET http://www.scol.com.cn/>
+2017-05-27 11:22:28 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'media.sohu.com': <GET http://media.sohu.com/20161130/n474506313.shtml>
+2017-05-27 11:22:28 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'corp.sohu.com': <GET http://corp.sohu.com/s2006/contactus/>
+2017-05-27 11:22:28 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'mt.sohu.com': <GET http://mt.sohu.com/it/d20170203/125382569_465216.shtml>
+2017-05-27 11:22:28 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'baobao.sohu.com': <GET http://baobao.sohu.com/>
+2017-05-27 11:22:28 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'pic.cul.sohu.com': <GET http://pic.cul.sohu.com/group-440948.shtml>
+2017-05-27 11:22:28 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'gov.news.sohu.com': <GET http://gov.news.sohu.com/20161109/n472678439.shtml>
+2017-05-27 11:22:28 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'pic.news.sohu.com': <GET http://pic.news.sohu.com/cate-914882.shtml>
+2017-05-27 11:22:28 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'q.stock.sohu.com': <GET http://q.stock.sohu.com/cn/300304/index.shtml>
+2017-05-27 11:22:28 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'db.money.sohu.com': <GET http://db.money.sohu.com/bank/view/704/00077704.html>
+2017-05-27 11:22:28 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'yule.sohu.com': <GET http://yule.sohu.com/20170426/n490738286.shtml>
+2017-05-27 11:22:28 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'www.lnd.com.cn': <GET http://www.lnd.com.cn/>
+2017-05-27 11:22:28 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'learning.sohu.com': <GET http://learning.sohu.com/>
+2017-05-27 11:22:28 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'globalsurvey.sojump.com': <GET https://globalsurvey.sojump.com/jq/12018176.aspx>
+2017-05-27 11:22:28 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'view.sohu.com': <GET http://view.sohu.com/>
+2017-05-27 11:22:28 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'star.news.sohu.com': <GET http://star.news.sohu.com/piyao/>
+2017-05-27 11:22:28 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'travel.focus.cn': <GET http://travel.focus.cn/>
+2017-05-27 11:22:28 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'cms5.sohu.com': <GET http://cms5.sohu.com/cms_page/template/jsp/template405832.jsp?id=405832&view=3&filter=noad&ENTITYID=143746642&userId=12855&sign=71cec64cb885333d28bbf8fb1fb45595>
+2017-05-27 11:22:28 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'sports.sohu.com': <GET http://sports.sohu.com/s2004/zhongjia.shtml>
+2017-05-27 11:22:28 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'pay.sohu.com': <GET http://pay.sohu.com/>
+2017-05-27 11:22:28 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'pic.sohu.com': <GET http://pic.sohu.com/>
+2017-05-27 11:22:28 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'www.iyaxin.com': <GET http://www.iyaxin.com/>
+2017-05-27 11:22:28 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'www.globalpeople.com.cn': <GET http://www.globalpeople.com.cn/>
+2017-05-27 11:22:28 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'www.xixi123.com': <GET http://www.xixi123.com/shehui/31409.html?dsy>
+2017-05-27 11:22:28 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'auto.sohu.com': <GET http://auto.sohu.com/newenerge/>
+2017-05-27 11:22:28 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'img.sh.sohu.com': <GET http://img.sh.sohu.com/caftzzjbs/20170515/index.html>
+2017-05-27 11:22:28 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'www.lwdf.cn': <GET http://www.lwdf.cn/wwwroot/dfzk/>
+2017-05-27 11:22:28 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'news.hebei.com.cn': <GET http://news.hebei.com.cn/>
+2017-05-27 11:22:28 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'www.dayoo.com': <GET http://www.dayoo.com/>
+2017-05-27 11:22:28 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'cbachina.sports.sohu.com': <GET http://cbachina.sports.sohu.com/>
+2017-05-27 11:22:28 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'gongyi.sohu.com': <GET http://gongyi.sohu.com/20170523/n494082964.shtml>
+2017-05-27 11:22:28 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'www.fjsen.com': <GET http://www.fjsen.com/>
+2017-05-27 11:22:28 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'sitemap.sohu.com': <GET http://sitemap.sohu.com/>
+2017-05-27 11:22:28 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'www.dahe.cn': <GET http://www.dahe.cn/>
+2017-05-27 11:22:28 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'bbs.focus.cn': <GET https://bbs.focus.cn/bj/29086/6459e5e95f74f6a2.html>
+2017-05-27 11:22:28 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'www.cankaoxiaoxi.com': <GET http://www.cankaoxiaoxi.com/>
+2017-05-27 11:22:28 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'health.sohu.com': <GET http://health.sohu.com/s2009/zhuanti/>
+2017-05-27 11:22:28 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'www.iqilu.com': <GET http://www.iqilu.com/>
+2017-05-27 11:22:28 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'police.news.sohu.com': <GET http://police.news.sohu.com/>
+2017-05-27 11:22:28 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'www.cncnews.cn': <GET http://www.cncnews.cn/>
+2017-05-27 11:22:28 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'f.sohu.com': <GET http://f.sohu.com>
+2017-05-27 11:22:28 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'www.changjiangtimes.com': <GET http://www.changjiangtimes.com/>
+2017-05-27 11:22:28 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'www.jfdaily.com': <GET http://www.jfdaily.com/>
+2017-05-27 11:22:28 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'www.youth.cn': <GET http://www.youth.cn/>
+2017-05-27 11:22:28 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'www.infzm.com': <GET http://www.infzm.com/>
+2017-05-27 11:22:28 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'astro.women.sohu.com': <GET http://astro.women.sohu.com/20170526/n494545740.shtml>
+2017-05-27 11:22:28 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'goche.auto.sohu.com': <GET http://goche.auto.sohu.com/calc_nu.html>
+2017-05-27 11:22:28 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'pic.history.sohu.com': <GET http://pic.history.sohu.com/group-621896.shtml>
+2017-05-27 11:22:28 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'dongjian.sohu.com': <GET http://dongjian.sohu.com/djpc1062/>
+2017-05-27 11:22:28 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'www.xinhuanet.com': <GET http://www.xinhuanet.com/>
+2017-05-27 11:22:28 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'zqb.cyol.com': <GET http://zqb.cyol.com/>
+2017-05-27 11:22:28 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'www.morningpost.com.cn': <GET http://www.morningpost.com.cn/>
+2017-05-27 11:22:28 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'www.cnhubei.com': <GET http://www.cnhubei.com/>
+2017-05-27 11:22:28 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'www.nen.com.cn': <GET http://www.nen.com.cn/>
+2017-05-27 11:22:28 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'epaper.lnd.com.cn': <GET http://epaper.lnd.com.cn/index.aspx?paperType=lswb>
+2017-05-27 11:22:28 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'pic.yule.sohu.com': <GET http://pic.yule.sohu.com/cate-915115.shtml>
+2017-05-27 11:22:28 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'www.qhnews.com': <GET http://www.qhnews.com/>
+2017-05-27 11:22:28 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'mp.sohu.com': <GET http://mp.sohu.com/profile?xpt=cHBhZzYxODkyODIwYzM1NUBzb2h1LmNvbQ==>
+2017-05-27 11:22:28 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'www.tibet.cn': <GET http://www.tibet.cn/>
+2017-05-27 11:22:28 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'pinyin.sogou.com': <GET http://pinyin.sogou.com/>
+2017-05-27 11:22:28 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'www.chinatibetnews.com': <GET http://www.chinatibetnews.com/>
+2017-05-27 11:22:28 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'fashion.sohu.com': <GET http://fashion.sohu.com/>
+2017-05-27 11:22:28 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'sohucallcenter.blog.sohu.com': <GET http://sohucallcenter.blog.sohu.com/>
+2017-05-27 11:22:28 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'ad.sohu.com': <GET http://ad.sohu.com/>
+2017-05-27 11:22:28 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'www.sxrb.com': <GET http://www.sxrb.com/>
+2017-05-27 11:22:28 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'www.ce.cn': <GET http://www.ce.cn/>
+2017-05-27 11:22:28 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'www.nfpeople.com': <GET http://www.nfpeople.com/>
+2017-05-27 11:22:28 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'www.jxnews.com.cn': <GET http://www.jxnews.com.cn/>
+2017-05-27 11:22:28 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'news.cyol.com': <GET http://news.cyol.com/content/2016-03/04/content_12250240.htm>
+2017-05-27 11:22:28 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'chihe.sohu.com': <GET http://chihe.sohu.com/>
+2017-05-27 11:22:28 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'www.zjol.com.cn': <GET http://www.zjol.com.cn/>
+2017-05-27 11:22:28 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'zhuanti.focus.cn': <GET http://zhuanti.focus.cn/bj/2017/2017lvyoukanfangpc/>
+2017-05-27 11:22:28 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'caipiao.sohu.com': <GET http://caipiao.sohu.com/20170526/n494542324.shtml>
+2017-05-27 11:22:28 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'hr.sohu.com': <GET http://hr.sohu.com>
+2017-05-27 11:22:28 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'www.qx162.com': <GET http://www.qx162.com/>
+2017-05-27 11:22:28 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'money.sohu.com': <GET http://money.sohu.com/>
+2017-05-27 11:22:28 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'www.lzlw.cn': <GET http://www.lzlw.cn/index.php>
+2017-05-27 11:22:28 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'dealer.auto.sohu.com': <GET http://dealer.auto.sohu.com/dealermap/index.shtml>
+2017-05-27 11:22:28 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'www.people.com.cn': <GET http://www.people.com.cn/>
+2017-05-27 11:22:28 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'stock.sohu.com': <GET http://stock.sohu.com>
+2017-05-27 11:22:28 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'www.cssn.cn': <GET http://www.cssn.cn/>
+2017-05-27 11:22:28 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'www.hsw.cn': <GET http://www.hsw.cn/>
+2017-05-27 11:22:28 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'm.sohu.com': <GET http://m.sohu.com/>
+2017-05-27 11:22:28 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'women.sohu.com': <GET http://women.sohu.com/>
+2017-05-27 11:22:28 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'www.cyol.com': <GET http://www.cyol.com/>
+2017-05-27 11:22:28 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'www.gywb.com.cn': <GET http://www.gywb.com.cn/>
+2017-05-27 11:22:28 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'www.huanqiu.com': <GET http://www.huanqiu.com/>
+2017-05-27 11:22:28 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'chanye.focus.cn': <GET http://chanye.focus.cn/>
+2017-05-27 11:22:28 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'dz.xdkb.net': <GET http://dz.xdkb.net/>
+2017-05-27 11:22:28 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'xtopfly.com': <GET http://xtopfly.com/>
+2017-05-27 11:22:28 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'shangye.focus.cn': <GET http://shangye.focus.cn/>
+2017-05-27 11:22:28 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'www.kaiwind.com': <GET http://www.kaiwind.com/>
+2017-05-27 11:22:28 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'pinglun.sohu.com': <GET http://pinglun.sohu.com/>
+2017-05-27 11:22:28 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'www.chinanews.com': <GET http://www.chinanews.com/>
+2017-05-27 11:22:28 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'www.caijing.com.cn': <GET http://www.caijing.com.cn/>
+2017-05-27 11:22:28 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'investors.sohu.com': <GET http://investors.sohu.com/>
+2017-05-27 11:22:28 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'www.focus.cn': <GET http://www.focus.cn/>
+2017-05-27 11:22:28 [scrapy.spidermiddlewares.offsite] DEBUG: Filtered offsite request to 'go.sohu.com': <GET http://go.sohu.com/2017/sportsfamilyday/?qq-pf-to=pcqq.c2c>
+2017-05-27 11:22:57 [scrapy.crawler] INFO: Received SIG_SETMASK, shutting down gracefully. Send again to force 
+2017-05-27 11:22:57 [scrapy.core.engine] INFO: Closing spider (shutdown)
+2017-05-27 11:22:57 [scrapy.statscollectors] INFO: Dumping Scrapy stats:
+{'downloader/request_bytes': 211,
+ 'downloader/request_count': 1,
+ 'downloader/request_method_count/GET': 1,
+ 'downloader/response_bytes': 58967,
+ 'downloader/response_count': 1,
+ 'downloader/response_status_count/200': 1,
+ 'finish_reason': 'shutdown',
+ 'finish_time': datetime.datetime(2017, 5, 27, 3, 22, 57, 236633),
+ 'log_count/DEBUG': 128,
+ 'log_count/INFO': 9,
+ 'memusage/max': 1177780224,
+ 'memusage/startup': 1177780224,
+ 'offsite/domains': 125,
+ 'offsite/filtered': 753,
+ 'request_depth_max': 1,
+ 'response_received_count': 1,
+ 'scheduler/dequeued/redis': 1,
+ 'scheduler/enqueued/redis': 1,
+ 'start_time': datetime.datetime(2017, 5, 27, 3, 22, 27, 925350)}
+2017-05-27 11:22:57 [scrapy.core.engine] INFO: Spider closed (shutdown)

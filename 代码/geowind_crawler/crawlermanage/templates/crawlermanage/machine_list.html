@@ -1,0 +1,253 @@
+{% extends "crawlermanage/index.html" %}
+{% block head %}
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>爬虫后台管理系统</title>
+  <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+  <!-- Bootstrap 3.3.6 -->
+  <link rel="stylesheet" href="../../static/bootstrap/css/bootstrap.min.css">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="../../static/style/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" href="../../static/dist/css/AdminLTE.min.css">
+  <link rel="stylesheet" href="../../static/dist/css/skins/_all-skins.min.css">
+  <link rel="stylesheet" href="../../static/plugins/iCheck/flat/blue.css">
+
+  <link rel="stylesheet" href="../../static/plugins/datatables/dataTables.bootstrap.css">
+  <link rel="stylesheet" href="../../static/plugins/bootstrap3-editable/css/bootstrap-editable.css">
+</head>
+{% endblock %}
+{% block sidebar %}
+      <ul class="sidebar-menu">
+        <li class="header">主控面板</li>
+        <li>
+          <a href="{% url 'tasks' %}">
+            <i class="fa fa-dashboard"></i> <span>爬虫状态</span>
+          </a>
+        </li>
+        <li>
+          <a href="{%url 'layout'%}">
+            <i class="fa fa-tasks"></i> <span>布置任务</span>
+            <!-- <span class="pull-right-container">
+              <small class="label pull-right bg-green">new</small>
+            </span> -->
+          </a>
+        </li>
+        <li class="active">
+          <a href="{% url 'machinelist' %}">
+            <i class="fa fa-medium"></i> <span>从机管理</span>
+          </a>
+        </li>
+        <li>
+          <a href="{% url 'processlist' %}">
+            <i class="fa fa-th-large"></i> <span>进程管理</span>
+          </a>
+        </li>
+        <li class="treeview">
+          <a href="#">
+            <i class="fa fa-sort-alpha-asc"></i> <span>自动结构</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li><a href="{%url 'extractsinger' %}"><i class="fa fa-circle-o"></i>正文抽取</a></li>
+            <li><a href="{%url 'extractmultiple' %}"><i class="fa fa-circle-o"></i>批量抽取</a></li>
+          </ul>
+        </li>
+        <li class="treeview">
+          <a href="#">
+            <i class="fa fa-map-o"></i> <span>正文测试</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li><a href="{%url 'extractarticle' %}"><i class="fa fa-circle-o"></i>批量抽取</a></li>
+            <li><a href="{%url 'testarticles' %}"><i class="fa fa-circle-o"></i>批量测试</a></li>
+            <li><a href="{%url 'testsingle' %}"><i class="fa fa-circle-o"></i>单例测试</a ></li>
+          </ul>
+        </li>
+        <li>
+          <a href="{% url 'charts' %}">
+            <i class="fa fa-pie-chart"></i> <span>数据统计</span>
+          </a>
+        </li>
+        <li>
+          <a href="{% url 'introduce'%}">
+            <i class="fa fa-book"></i> <span>使用说明</span>
+          </a>
+        </li>
+
+        <li>
+          <a href="{% url 'settings' %}">
+            <i class="fa fa-cog"></i> <span>系统设置</span>
+          </a>
+        </li>
+      </ul>
+{% endblock %}
+{% block maincontent %}
+<div class="row">
+<div class="col-xs-12">
+  <div class="box box-primary">
+    <div class="box-header">
+      <h3 class="box-title">主机管理</h3>
+    </div>
+    <!-- /.box-header -->
+    <div class="box-body table-responsive">
+    <table class="table">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>IP</th>
+        <th>操作</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for i in p.p_content %}
+      <tr>
+        <td>{{i.id}}</td>
+        <td>{{i.ip}}</td>
+        <!--<td>Bacon ipsum dolor sit amet salami venison chicken flank fatback doner.</td>-->
+         <td><a href="{%url 'deleteip'%}?ip={{i.ip}}">删除</a></td>
+      </tr>
+      {% endfor %}
+    </tbody>
+</table>
+<div>
+<div id="pagination_div1">
+    <ul class="pagination" >
+    共 <span  class="badge">{{p.p_count}}</span> 条记录，总 <span  class="badge">{{p.p_pages}}</span> 页，当前在<span class="badge">{{p.page}}</span>页
+    </ul>
+</div>
+
+<!--<div class="box-footer">-->
+<div id="pagination_div2">
+  <table class="table">
+    <tbody>
+      <tr>
+        <td>
+        <ul class="pagination" style="margin:0 0 0 0;">
+            <li><a href="{%url 'tasks' %}?page={{p.p_previous}}">&laquo;</a></li>
+            <li> <a href="{%url 'tasks' %}?page=1">首页</a></li>
+                {% for i in p.p_range %}
+                    <li  {% ifequal p.p_id i %} class="active" {% endifequal %}><a href="{%url 'tasks' %}?page={{i}}">{{i}}</a></li>
+                {% endfor %}
+            <li> <a href="{%url 'tasks' %}?page={{p.p_pages}}">尾页</a></li>
+            <li><a href="{%url 'tasks' %}?page={{p.p_next}}">&raquo;</a></li>
+        </ul>
+
+        </td>
+        <td>
+
+        <!-- Button trigger modal -->
+        <button type="button" class="btn btn-primary pull-right" data-toggle="modal" data-target="#myModal">
+          增加
+        </button>
+        </td>
+      </tr>
+    </tbody>
+</table>
+<!--</div>-->
+</div>
+</div>
+    <!-- 服务器分页结束 -->
+    </div>
+    <!-- /.box-body -->
+  </div>
+  <!-- /.box -->
+</div>
+</div>
+<!-- row -->
+<!--model-->
+<div id="myModal" class="modal fade" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">新增IP</h4>
+      </div>
+      <div class="modal-body">
+	        <div class="form-group">
+	          <label for="ip" class="col-sm-1 control-label">ip</label>
+	          <div class="col-sm-11">
+	            <input type="text" class="form-control" id="ip" placeholder="ip">
+	          </div>
+	        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+        <button id="saveip" type="button" class="btn btn-primary">保存</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+{% endblock %}
+
+{% block script %}
+<script src="../../static/plugins/jQuery/jquery-2.2.3.min.js"></script>
+<script src="../../static/bootstrap/js/bootstrap.min.js"></script>
+<script src="../../static/dist/js/app.min.js"></script>
+<script src="../../static/dist/js/demo.js"></script>
+
+<script src="../../static/plugins/datatables/jquery.dataTables.min.js"></script>
+<script src="../../static/plugins/datatables/dataTables.bootstrap.min.js"></script>
+<script src="../../static/plugins/bootstrap3-editable/js/bootstrap-editable.min.js"></script>
+<script>
+  $(function () {
+    // $("#example1").DataTable();
+    $('#example1').DataTable({
+      "paging": true,
+      "lengthChange": false,
+      "searching": false,
+      "ordering": false,
+      "info": true,
+      "autoWidth": false
+    });
+
+  });
+
+  $('#saveip').click(function() {
+  	$('#myModal').modal('hide')
+  	ip = $('#ip').val()
+  	if(ip=='' || ip==undefined){
+  		return
+  	}
+  	if(!isIP(ip)){
+  		alert("ip无效")
+  		return
+  	}
+  	$.post('/crawlermanage/addip/', {ip:ip}, function(data) {
+  		if(data!=null) {
+  			if(data['status']=='error') {
+  				alert("ip已存在，添加失败")
+  			} else {
+  				location.href = '/crawlermanage/machinelist/'
+  			}
+  		}
+  	}, 'json')
+  });
+
+  function isIP(ip)  
+{  
+    var reSpaceCheck = /^(\d+)\.(\d+)\.(\d+)\.(\d+)$/;  
+    if (reSpaceCheck.test(ip))  
+    {  
+        ip.match(reSpaceCheck);  
+        if (RegExp.$1<=255&&RegExp.$1>=0  
+          &&RegExp.$2<=255&&RegExp.$2>=0  
+          &&RegExp.$3<=255&&RegExp.$3>=0  
+          &&RegExp.$4<=255&&RegExp.$4>=0)  
+        {  
+            return true;   
+        }else  
+        {  
+            return false;  
+        }  
+    }else  
+    {  
+        return false;  
+    }  
+}  
+</script>
+{% endblock %}

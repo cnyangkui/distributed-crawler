@@ -1,0 +1,838 @@
+{% extends "crawlermanage/index.html" %}
+{% block head %}
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>爬虫后台管理系统</title>
+  <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+  <!-- Bootstrap 3.3.6 -->
+  <link rel="stylesheet" href="../../static/bootstrap/css/bootstrap.min.css">
+  <link rel="stylesheet" href="../../static/style/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" href="../../static/plugins/iCheck/flat/blue.css">
+  <link rel="stylesheet" href="../../static/plugins/datatables/dataTables.bootstrap.css">
+  <link rel="stylesheet" href="../../static/plugins/daterangepicker/daterangepicker.css">
+  <link rel="stylesheet" href="../../static/plugins/select2/select2.min.css">
+  <link rel="stylesheet" href="../../static/dist/css/AdminLTE.min.css">
+  <link rel="stylesheet" href="../../static/dist/css/skins/_all-skins.min.css">
+
+  <link rel="stylesheet" href="../../static/plugins/bootstrapTable/bootstrap-table.min.css">
+  <link rel="stylesheet" href="../../static/plugins/bootstrap3-editable/css/bootstrap-editable.css">
+
+</head>
+{% endblock %}
+{% block sidebar %}
+      <ul class="sidebar-menu">
+        <li class="header">主控面板</li>
+        <li>
+          <a href="{% url 'tasks' %}">
+            <i class="fa fa-dashboard"></i> <span>爬虫状态</span>
+          </a>
+        </li>
+        <li class="active">
+          <a href="{%url 'layout'%}">
+            <i class="fa fa-tasks"></i> <span>布置任务</span>
+          </a>
+        </li>
+          <li>
+          <a href="{% url 'machinelist' %}">
+            <i class="fa fa-medium"></i> <span>从机管理</span>
+          </a>
+        </li>
+        <li>
+          <a href="{% url 'processlist' %}">
+            <i class="fa fa-th-large"></i> <span>进程管理</span>
+          </a>
+        </li>
+        <li class="treeview">
+          <a href="#">
+            <i class="fa fa-sort-alpha-asc"></i> <span>自动结构</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li><a href="{%url 'extractsinger' %}"><i class="fa fa-circle-o"></i>正文抽取</a></li>
+            <li><a href="{%url 'extractmultiple' %}"><i class="fa fa-circle-o"></i>批量抽取</a></li>
+          </ul>
+        </li>
+        <li class="treeview">
+          <a href="#">
+            <i class="fa fa-map-o"></i> <span>正文测试</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li><a href="{%url 'extractarticle' %}"><i class="fa fa-circle-o"></i>批量抽取</a></li>
+            <li><a href="{%url 'testarticles' %}"><i class="fa fa-circle-o"></i>批量测试</a></li>
+            <li><a href="{%url 'testsingle' %}"><i class="fa fa-circle-o"></i>单例测试</a ></li>
+          </ul>
+        </li>
+        <li>
+          <a href="{% url 'charts' %}">
+            <i class="fa fa-pie-chart"></i> <span>数据统计</span>
+          </a>
+        </li>
+        <li>
+          <a href="{% url 'introduce'%}">
+            <i class="fa fa-book"></i> <span>使用说明</span>
+          </a>
+        </li>
+
+        <li>
+          <a href="{% url 'settings' %}">
+            <i class="fa fa-cog"></i> <span>系统设置</span>
+          </a>
+        </li>
+      </ul>
+{% endblock %}
+{% block maincontent %}
+        <div class="box box-primary">
+          <div class="box-header with-border">
+            <h3 class="box-title">通用任务设置</h3>
+          </div>
+          <!-- /.box-header -->
+          <div class="box-body">
+            <!--<form action="/crawlermanage/layout/" method="post" role="form">{% csrf_token %}-->
+              <!-- text input -->
+              <div class="form-group">
+                <label>任务名</label>
+                <input id="taskname" type="text" class="form-control" placeholder="输入任务名 ...">
+                <!-- {% if error1 %}
+                  <p style="color: red;">{{error1}}</p>
+                {% endif %} -->
+              </div>
+
+
+
+
+
+              <div class="form-group">
+                  <ul id="myTab" class="nav nav-tabs">
+                       <li class="active"><a href="#home" data-toggle="tab">单例输入</a></li>
+                       <li><a href="#ios" data-toggle="tab">批量输入</a></li>
+                  </ul>
+                          <div class='box' style="border-top:0px;">
+                      <div id="myTabContent" class="tab-content">
+                         <div class="tab-pane fade in active" id="home">
+                              <div class="form-group col-sm-10" style="padding-left:0px;">
+                           <!--<div class="form-group">-->
+                                 <label>目标域名</label>
+                    <input placeholder="回车将选中选项加入下面富文本框" type="text" class="span10 form-control"  id="starturl_sin" data-provide="typeahead" data-items="5" />
+                             </div>
+                             <div class="form-group col-sm-2" style="padding-left:0px;padding-right:0px;">
+                           <!--<div class="form-group">-->
+                                 <label>网站类型</label>
+                                 <select class="form-control" id="webtype_sin">
+                                     <option value="non_select">请选择</option>
+                                     <option value="ecommerce">电商（全网）</option>
+                                     <option value="ecommerce_keywords">电商（关键字）</option>
+                                     <option value="news">新闻</option>
+                                     <option value="blog">博客</option>
+                                 </select>
+                             </div>
+                             <div class="form-group" id="ecommerce_keywords_sin" style="display: none">
+                                <label>关键字（有多个用英文符“,”分割，如下）</label>
+                                <textarea id="keywords_sin" class="form-control" rows="3" placeholder="手机,笔记本,iphone"></textarea>
+                              </div>
+
+
+                             <div class="col-sm-offset-2 col-sm-10" style="padding-right:0px;">
+
+                                 <button id="button_sin" type="button" class="btn pull-right">点击添加</button>
+                             </div>
+
+                         </div>
+                         <div class="tab-pane fade" id="ios">
+                              <label>目标域名</label>
+                              <textarea id="starturl_mul" class="form-control" rows="8" placeholder="https://www.jd.com
+http://news.sohu.com"></textarea>
+                             <div class="form-group">
+                                 <label>网站类型</label>
+
+                                 <select class="form-control" id="webtype_mul">
+                                     <option value="non_select">请选择</option>
+                                     <option value="ecommerce">电商（全网）</option>
+                                     <option value="ecommerce_keywords">电商（关键字）</option>
+                                     <option value="news">新闻</option>
+                                     <option value="blog">博客</option>
+                                 </select>
+
+                                <!--$("#select2").val("10000 水稻").trigger("change");-->
+
+                            <div class="form-group" id="ecommerce_keywords_mul" style="display: none">
+                                <label>关键字（有多个用英文符“,”分割，如下）</label>
+                                <textarea id="keywords_mul" class="form-control" rows="3" placeholder="手机,笔记本,iphone"></textarea>
+                            </div>
+                             </div>
+                             <div class="col-sm-offset-2 col-sm-10" style="padding-right:0px;">
+                                 <button id="button_mul" type="button" class="btn pull-right">点击添加</button>
+                             </div>
+                         </div>
+                      </div>
+                          </div>
+
+
+
+                    <div class="form-group" style="display: none" id="mytable">
+                        <label>任务信息简介</label>
+                         <table id="table">
+                          </table>
+                          <div class="form-group" id="ecommerce_keywords" style="display: none">
+                            <label>关键字（有多个用英文符“,”分割，如下）</label>
+                            <textarea id="keywords" class="form-control" rows="3" placeholder="手机,笔记本,iphone"></textarea>
+                            <!-- {% if error2 %}
+                              <p style="color: red;">{{error2}}</p>
+                            {% endif %} -->
+                          </div>
+                      <div>
+                          </div>
+                    </div>
+              <div>
+              <!-- textarea -->
+             <!--<div class="form-group">-->
+                <!--<label>起始URL（有多个用回车分割，如下）</label>-->
+                <!--<input placeholder="回车将选中选项加入下面富文本框" type="text" class="span10 form-control"  id="urls_search" data-provide="typeahead" data-items="5" />-->
+              <!--</div>-->
+              <!--<div class="form-group">-->
+                <!--&lt;!&ndash;<label>起始URL（有多个用回车分割，如下）</label>&ndash;&gt;-->
+                <!--<textarea id="starturls" class="form-control" rows="8" placeholder="https://www.geowind.com-->
+<!--http://www.bootstrap.com"></textarea>-->
+              <!--</div>-->
+
+              <div class="form-group">
+                <label>任务描述</label>
+                <textarea id="describe" class="form-control" rows="3" placeholder="点击输入"></textarea>
+                  <p style="color: red;">{{error2}}</p>
+              </div>
+
+              <!-- 下拉列表：高级设置 -->
+              <label class="collapsed" data-toggle="collapse" data-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne"> 高级参数（点击设置）</label>
+              <div class="form-group">
+                <!-- <button type="button" class="btn btn-default collapsed" data-toggle="collapse" data-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne"> -->
+                <!-- <label>高级参数</label> -->
+                <!-- <i class="glyphicon glyphicon-plus"></i> -->
+              <!-- </button> -->
+
+              <div id="collapseOne" class="accordion-body collapse" aria-expanded="false" style="height: 0px;">
+                <div class="accordion-inner">
+                    <table class="table table-bordered table-striped">
+                  <tbody>
+                    <tr>
+                      <th><label>运行时间区间</label></th>
+                      <td>
+                          <div class="form-group">
+                            <div class="input-group">
+                              <div class="input-group-addon">
+                                <i class="fa fa-clock-o"></i>
+                              </div>
+                              <!--<input type="text" class="form-control pull-right" id="reservationtime">-->
+                              <input id="reservationtime" class="form-control pull-right" class="daterangepicker-field"></input>
+                            </div>
+                            <!-- /.input group -->
+                          </div>
+                      </td>
+                    </tr>
+                    <tr>
+                      <th><label>分布式主机</label></th>
+                      <td>
+                        <div class="form-group">
+                          <select class="form-control select2" multiple="multiple" data-placeholder="以下主机可用" id="slave" style="width: 100%;">
+                          {% for i in ips %}
+                          <option value="{{i.ip}}">{{i.ip}}</option>
+                          {% endfor %}
+                          </select>
+                        </div>
+                      </td>
+                    </tr>
+                  <tr>
+                      <th><label>进程数量</label></th>
+                      <td>
+                        <div class="form-group">
+                          <select class="form-control select2 js-example-basic-single" name="processnum" id="processnum" style="width: 100%;">
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                            <option value="6">6</option>
+                            <option value="7">7</option>
+                            <option value="8">8</option>
+                            <option value="9">9</option>
+                            <option value="10">10</option>
+                          </select>
+                        </div>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+                </div>
+              </div>
+
+              </div>
+
+              <div class="box-footer" style="padding-right:0px;">
+                <!--<button id="cancel" type="button" class="btn btn-default">取消</button>-->
+
+                 <div class="col-sm-offset-2 col-sm-10" style="padding-right:0px;padding-left:0px;">
+                     <button id="submit" type="button" class="btn btn-primary pull-right">开始抓取</button>
+                 </div>
+              </div>
+            <!--</form>-->
+          </div>
+          <!-- /.box-body -->
+        </div>
+{% endblock %}
+{% block script %}
+<script src="../../static/plugins/jQuery/jquery-2.2.3.min.js"></script>
+<script src="../../static/bootstrap/js/bootstrap.min.js"></script>
+<script src="../../static/dist/js/app.min.js"></script>
+<script src="../../static/dist/js/demo.js"></script>
+
+<script src="../../static/plugins/datatables/jquery.dataTables.min.js"></script>
+<script src="../../static/plugins/datatables/dataTables.bootstrap.min.js"></script>
+<script src="../../static/plugins/select2/select2.full.min.js"></script>
+
+<script src="../../static/plugins/bootstrap3-editable/js/moment.js"></script>
+<script src="../../static/plugins/daterangepicker/daterangepicker.js"></script>
+<script src="../../static/plugins/bootstrap3-typeahead/bootstrap3-typeahead.min.js"></script>
+<script src="../../static/plugins/bootstrapTable/bootstrap-table.min.js"></script>
+<script src="../../static/plugins/bootstrapTable/bootstrap-table-editable.js"></script>
+<script src="../../static/plugins/bootstrap3-editable/js/bootstrap-editable.js"></script>
+<script>
+  $(".select2").select2();
+  $(function () {
+    // $("#example1").DataTable();
+    $('#example1').DataTable({
+      "paging": true,
+      "lengthChange": false,
+      "searching": false,
+      "ordering": false,
+      "info": true,
+      "autoWidth": false
+    });
+    //自动提示
+
+    $("#starturl_sin").typeahead({
+
+
+        source: function (query, process) {
+            return $.ajax({
+                url: '/crawlermanage/domainautocomplete/',
+                type: 'post',
+                data: {url: query},
+                success: function (result) {
+                    result = eval('('+result+')');
+                    //console.log(result);
+                    //console.log(typeof(result));
+                    //console.log(result['items'])
+                    //return process(result.options);
+
+                    var resultList = result.items.map(function (item) {
+                          var aItem = {url: item.url, name: item.name,webtype:item.webtype};
+                          return JSON.stringify(aItem);
+                    });
+                    return process(resultList);
+                },
+            });
+        },
+        highlighter: function (obj) {
+            var item = JSON.parse(obj);
+            var query = this.query.replace(/[\-\[\]{}()*+?.,\\\^$|#\s]/g, '\\$&');
+            return item.url.replace(new RegExp('(' + query + ')', 'ig'), function ($1, match) {
+                return '<strong>' + match + '</strong>'
+            });
+        },
+        updater: function (obj) {
+            var item = JSON.parse(obj);
+            console.log(item.webtype);
+
+            webtype_sin = item.webtype;
+            $("#webtype_sin").val(webtype_sin).trigger("change");
+
+            console.log(webtype_sin);
+            if(webtype_sin == 'ecommerce_keywords') {
+               $("#ecommerce_keywords_sin").fadeIn('slow');
+               $('#ecommerce_keywords_sin').css('display', '');
+            } else {
+               $("#ecommerce_keywords_sin").fadeOut("slow");
+            }
+
+            return item.url;
+        }
+
+
+
+        /*
+        source: function (query, process) {
+            return $.post('/crawlermanage/domainautocomplete/', { query: query }, function (result) {
+                    result = eval('('+result+')');
+                    console.log(result);
+                    console.log(typeof(result));
+                    console.log(result['items'])
+                    //return process(result.options);
+
+                    var resultList = result.items.map(function (item) {
+                          var aItem = {id: item.id, name: item.name};
+                          return JSON.stringify(aItem);
+                    });
+                    return process(resultList);
+                });
+            }
+        }
+        */
+
+
+
+    });
+
+
+
+    /*
+    var subjects = {{urls|safe}};
+	$('#starturl_sin').typeahead({source: subjects,
+        updater: function (item) {//选中
+            console.log("'" + item + "' selected.");
+            //tem = item.substring(0, item.indexOf(','));
+
+            return item;
+        }
+    })
+    */
+
+
+    $('#reservationtime').daterangepicker({
+        timePicker: true,
+        timePickerIncrement: 1,
+        timePicker24Hour: true,
+        locale: {
+            format: 'YYYY/MM/DD HH:mm',
+            cancelLabel: 'Clear'
+        },
+        autoUpdateInput: false
+    });
+    $('#reservationtime').on('apply.daterangepicker', function(ev, picker) {
+      $(this).val(picker.startDate.format('YYYY/MM/DD HH:mm') + ' - ' + picker.endDate.format('YYYY/MM/DD HH:mm'));
+    });
+
+    $('#reservationtime').on('cancel.daterangepicker', function(ev, picker) {
+      $(this).val('');
+    });
+
+
+  });
+
+
+  function get_url(url_li) {
+        var url_set = new Set();
+        var li_list = url_li.split("</li>");
+        for(var i=0; i<li_list.length-1; i++) {
+            url_set.add(li_list[i].split("href='")[1].split("'")[0])
+        }
+        return url_set;
+    }
+
+  function set_to_str(set) {
+    var list_str = ''
+    for (var x of set) {
+       list_str = list_str + x +',';
+    }
+    return list_str.substring(0, list_str.length-1);
+  }
+
+
+
+  $("#submit").click(function() {
+
+    var data = $("#table").bootstrapTable('getData');
+    
+    if(data.length==0){
+      alert("请输入URL")
+      return;
+    }
+    console.log(data)
+
+    var news_req = new Set();
+    var blog_req = new Set();
+    var ecommerce_req = new Set();
+    var ecommerce_keywords_data = new Array();
+
+    for(var i=0; i<data.length; i++) {
+        var temp_set = get_url(data[i].url);
+        if(data[i].webtype=='news') {
+            for (var x of temp_set) {
+               news_req.add(x);
+            }
+        } else if(data[i].webtype == 'blog') {
+            for (var x of temp_set) {
+               blog_req.add(x);
+            }
+        } else if(data[i].webtype == 'ecommerce') {
+            for (var x of temp_set) {
+               ecommerce_req.add(x);
+            }
+        } else if(data[i].webtype == 'ecommerce_keywords') {
+            ecommerce_keywords_data.push(data[i]);
+        }
+    }
+
+    var taskname = $('#taskname').val()
+    //starturls = $('#starturls').val()
+    var describe = $('#describe').val()
+    //webtype = $('#webtype').val()
+    var reservationtime = $('#reservationtime').val()
+    var slave = $('#slave').val()
+    var processnum = $('#processnum').val()
+    //keywords = $('#keywords').val()
+    if(taskname=='') {
+      alert('请完善信息...')
+      return
+    }
+    if(slave!=null) {
+      slave = slave.toString()
+    }
+
+    //'{"name":"2323","sex":"afasdf","age":"6262"}'
+    var news_str='', blog_str='', ecommerce_str='', all_data='';
+    if(news_req.size > 0) {
+       news_str = '{"webtype":"news","starturls":"'+set_to_str(news_req)+'","keywords":""}';
+       all_data = news_str + ',';
+    }
+    if(blog_req.size > 0) {
+      blog_str = '{"webtype":"blog","starturls":"'+set_to_str(blog_req)+'","keywords":""}';
+      all_data = all_data +  blog_str + ',';
+    }
+    if(ecommerce_req.size > 0) {
+      ecommerce_str = '{"webtype":"ecommerce","starturls":"'+set_to_str(ecommerce_req)+'","keywords":""}';
+      all_data = all_data + ecommerce_str + ',';
+    } 
+    for(var i=0; i<ecommerce_keywords_data.length; i++) {
+        var temp_set = get_url(ecommerce_keywords_data[i].url);
+        var temp = '{"webtype":"ecommerce_keywords","starturls":"'+set_to_str(temp_set)+'","keywords":"'+ecommerce_keywords_data[i].keywords+'"}';
+        all_data = all_data + temp + ',';
+    }
+    all_data = all_data.substring(0, all_data.length-1);
+    
+    all_data = '[' + all_data + ']';
+
+    $.post('/crawlermanage/layout/', {
+        taskname:taskname,
+        webtype_urls_keywords:all_data,
+        describe:describe,
+        reservationtime:reservationtime,
+        slave:slave,
+        processnum:processnum
+    }, function(data) {
+      if(data['status'] == 'success') {
+        location.href = '/crawlermanage/tasks'
+      }
+    }, 'json')
+
+    /*
+    for(var i=0; i<ecommerce_keywords_data.length; i++) {
+        var temp_set = get_url(data[i].url);
+        $.post('/crawlermanage/layout/', {
+          taskname:'ecommerce_'+taskname+'('+ ecommerce_keywords_data[i].keywords +')',
+          starturls:set_to_str(temp_set),
+          keywords:ecommerce_keywords_data[i].keywords,
+          describe:describe,
+          webtype:'ecommerce_keywords',
+          reservationtime:reservationtime,
+          slave:slave,
+          processnum:processnum
+        })
+
+    }
+
+    if(news_req.size > 0) {
+        $.post('/crawlermanage/layout/', {
+          taskname:'news_'+taskname,
+          starturls:set_to_str(news_req),
+          describe:describe,
+          webtype:'news',
+          reservationtime:reservationtime,
+          slave:slave,
+          processnum:processnum
+        })
+    }
+    if(blog_req.size > 0){
+        $.post('/crawlermanage/layout/', {
+          taskname:'blog_'+taskname,
+          starturls:set_to_str(blog_req),
+          describe:describe,
+          webtype:'blog',
+          reservationtime:reservationtime,
+          slave:slave,
+          processnum:processnum
+        })
+    }
+    if(ecommerce_req.size > 0) {
+        $.post('/crawlermanage/layout/', {
+          taskname:'ecommerce_'+taskname,
+          starturls:set_to_str(ecommerce_req),
+          describe:describe,
+          webtype:'ecommerce',
+          reservationtime:reservationtime,
+          slave:slave,
+          processnum:processnum
+        })
+    }
+
+
+    location.href = '/crawlermanage/tasks'
+
+    */
+
+  });
+
+
+
+  $("#webtype_mul").click(function(){
+     webtype_mul = $(this).val();
+     if(webtype_mul == 'ecommerce_keywords') {
+        $("#ecommerce_keywords_mul").fadeIn('slow');
+        $('#ecommerce_keywords_mul').css('display', '');
+     } else {
+        $("#ecommerce_keywords_mul").fadeOut("slow");
+     }
+  });
+  $("#webtype_sin").click(function(){
+
+     webtype_sin = $(this).val();
+     //console.log(webtype_sin);
+     if(webtype_sin == 'ecommerce_keywords') {
+        $("#ecommerce_keywords_sin").fadeIn('slow');
+        $('#ecommerce_keywords_sin').css('display', '');
+     } else {
+        $("#ecommerce_keywords_sin").fadeOut("slow");
+     }
+  });
+
+  function onKeyDown(event){
+                var e = event || window.event || arguments.callee.caller.arguments[0];
+                if(e && e.keyCode==27){ // 按 Esc
+                    //要做的事情
+                }
+                if(e && e.keyCode==113){ // 按 F2
+                     //要做的事情
+                }
+                if(e && e.keyCode==13){ // enter 键
+                     alert("此处回车触发搜索事件");
+                }
+
+            }
+
+var $table = $('#table'),
+        $remove = $('#remove'),
+        selections = [];
+
+
+    function getHeight() {
+        return $(window).height() - $('h1').outerHeight(true);
+    }
+
+
+    function initTable() {
+        $("#table").bootstrapTable({
+            //height: getHeight(),
+            columns: [
+
+					{
+                        title: 'ID',
+                        field: 'id',
+                        sortable: true,
+                        visible:false
+
+                    },
+                    {
+                        title: 'URL',
+                        field: 'url',
+                        sortable: true,
+                        width: '40%'
+
+                    },
+                    {
+                        field: 'webtype',
+                        title: '类型',
+                        sortable: true,
+                        align: 'center',
+                        editable: {
+                            type: 'select',
+                            value: status,
+							source:
+							[{ value: 'ecommerce', text: "电商(全网)" },
+							{ value: 'ecommerce_keywords', text: "电商(关键字)" },
+							{ value:'news',text:"新闻"},
+							{ value:'blog',text:"博客"}],
+						}
+					},
+					{
+                        title: '关键字',
+                        field: 'keywords',
+                        editable: true
+
+                    },
+                    {
+                        field: 'action',
+                        title: '操作',
+                        align: 'center',
+                        events: operateEvents,
+                        formatter: operateFormatter,
+                        width: '5%'
+                    }
+
+            ]
+        });
+
+        // sometimes footer render error.
+        setTimeout(function () {
+            $table.bootstrapTable('resetView');
+        }, 200);
+        $table.on('check.bs.table uncheck.bs.table ' +
+                'check-all.bs.table uncheck-all.bs.table', function () {
+            $remove.prop('disabled', !$table.bootstrapTable('getSelections').length);
+            // save your data, here just save the current page
+            selections = getIdSelections();
+            // push or splice the selections if you want to save all data selections
+        });
+        $table.on('expand-row.bs.table', function (e, index, row, $detail) {
+            if (index % 2 == 1) {
+                $detail.html('Loading from ajax request...');
+                $.get('LICENSE', function (res) {
+                    $detail.html(res.replace(/\n/g, '<br>'));
+                });
+            }
+        });
+        $table.on('all.bs.table', function (e, name, args) {
+            console.log(name, args);
+        });
+        $remove.click(function () {
+            var ids = getIdSelections();
+            $table.bootstrapTable('remove', {
+                field: 'id',
+                values: ids
+            });
+            $remove.prop('disabled', true);
+        });
+        $(window).resize(function () {
+            $table.bootstrapTable('resetView', {
+                height: getHeight()
+            });
+        });
+    }
+
+    function operateFormatter(value, row, index) {
+        return [
+        	/*
+            '<a class="like" href="javascript:void(0)" title="Like">',
+            '<i class="glyphicon glyphicon-heart"></i>',
+            '</a>  ',*/
+            '<a class="remove" href="javascript:void(0)" title="Remove">',
+            '<i class="glyphicon glyphicon-remove"></i>',
+            '</a>'
+        ].join('');
+    }
+    window.operateEvents = {
+        'click .like': function (e, value, row, index) {
+            alert('You click like action, row: ' + JSON.stringify(row));
+        },
+        'click .remove': function (e, value, row, index) {
+            $table.bootstrapTable('remove', {
+                field: 'id',
+                values: [row.id]
+            });
+        }
+    };
+    var button_sin = $('#button_sin');
+    var button_mul = $('#button_mul');
+
+    $(function () {
+        initTable();
+
+
+        button_sin.click(function () {
+            //$("#webtype_sin").val("ecommerce_keywords").trigger("change");
+
+            starturl = $('#starturl_sin').val();
+            webtype = $('#webtype_sin').val();
+            keywords = '';
+            console.log(webtype);
+
+            if(webtype == 'ecommerce_keywords'){
+                keywords = $('#keywords_sin').val();
+                if(keywords.replace(' ','').replace('\n','').replace('\r\n','') == ''){
+                    alert('至少输入一个关键字');
+                    return;
+                }
+                $('#keywords_sin').val('');
+
+            }if(starturl.replace(' ','').replace('\n','').replace('\r\n','') == ''){
+                alert('请输入URL');
+                return ;
+            }if(webtype =='non_select'){
+                alert('请选择url类型');
+                return ;
+            }
+
+
+            $('#starturl_sin').val('');
+
+$('#mytable').css('display', '');
+            $table.bootstrapTable('append',randomData(starturl,webtype,keywords,'sin'));
+
+            $table.bootstrapTable('scrollTo', 'bottom');
+
+        });
+
+        button_mul.click(function () {
+            starturl = $('#starturl_mul').val();
+            starturl_list = starturl.split('\n');
+            webtype = $('#webtype_mul').val();
+            keywords = '';
+            console.log(webtype);
+
+            if(webtype == 'ecommerce_keywords'){
+                keywords = $('#keywords_mul').val();
+                if(keywords.replace(' ','').replace('\n','').replace('\r\n','') == ''){
+                    alert('至少输入一个关键字');
+                    return;
+                }
+                $('#keywords_mul').val('');
+            }
+            if(starturl.replace(' ','').replace('\n','').replace('\r\n','') == ''){
+                alert('请输入URL');
+                return ;
+            }
+            if(webtype=='non_select'){
+                alert('请选择url类型');
+                return ;
+            }
+
+            $('#starturl_mul').val('');
+$('#mytable').css('display', '');
+            console.log(keywords);
+
+            $table.bootstrapTable('append',randomData(starturl_list,webtype,keywords,'mul'));
+
+            $table.bootstrapTable('scrollTo', 'bottom');
+        });
+    });
+    function randomData(starturl,webtype,keywords,op) {
+        var random_id=100*Math.random();
+
+        res_urls = ''
+        if( op == 'sin'){
+            res_urls = '<li style=\'list-style-type:none;\'><a href=\''+ starturl +'\' target=\'_blank\'>' + starturl + '</a></li>';
+
+        }else{
+            for(var i = 0;i<starturl.length;i++){
+                res_urls+= '<li style=\'list-style-type:none;\'><a href=\''+ starturl[i] +'\' target=\'_blank\'>' + starturl[i] + '</a></li>';
+            }
+        }
+
+        row = {id:random_id,url:res_urls,keywords:keywords,'webtype':webtype}
+
+        return row;
+    }
+	</script>
+{% endblock %}

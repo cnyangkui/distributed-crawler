@@ -1,0 +1,277 @@
+{% extends "crawlermanage/index.html" %}
+{% block head %}
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>爬虫后台管理系统</title>
+  <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+  <!-- Bootstrap 3.3.6 -->
+  <link rel="stylesheet" href="../../static/bootstrap/css/bootstrap.min.css">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="../../static/style/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" href="../../static/dist/css/AdminLTE.min.css">
+  <link rel="stylesheet" href="../../static/dist/css/skins/_all-skins.min.css">
+  <link rel="stylesheet" href="../../static/plugins/iCheck/flat/blue.css">
+
+  <link rel="stylesheet" href="../../static/plugins/datatables/dataTables.bootstrap.css">
+  <link rel="stylesheet" href="../../static/plugins/bootstrap3-editable/css/bootstrap-editable.css">
+</head>
+{% endblock %}
+{% block maincontent %}
+<div>
+
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content" style="border-radius:6px;">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+					&times;
+				</button>
+				<h4 class="modal-title">电商详细页面</h4>
+
+			</div>
+			<div class="modal-body">
+              <h4 class="modal-title" id="myModalTitle">商品名</h4>
+              <h4 class="modal-title" id="myModalPrice">价格</h4>
+              <h4 class="modal-title" id="myModalComment">评价</h4>
+              <h4 class="modal-title" >商品链接：<a id="myModalLink" target="_blank"></a></h4>
+
+              <br>
+              <h4 class="modal-title" >商品图片:</h4>
+              <img id = "myModalPic" src="" class="col-center-block">
+
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+				<!--<button type="button" class="btn btn-primary">提交更改</button>-->
+			</div>
+		</div><!-- /.modal-content -->
+	</div><!-- /.modal -->
+</div>
+
+
+          <div class="nav-tabs-custom">
+            <ul class="nav nav-tabs">
+              {% ifequal status 'goods' %}
+                <li class="active"><a href="#shopgoods" data-toggle="tab">商品信息</a></li>
+                <li><a href="#shopstore" data-toggle="tab">店铺信息</a></li>
+              {% endifequal %}
+              {% ifequal status 'stores' %}
+                <li><a href="#shopgoods" data-toggle="tab">商品信息</a></li>
+                <li class="active"><a href="#shopstore" data-toggle="tab">店铺信息</a></li>
+              {% endifequal %}
+            </ul>
+            <div class="tab-content">
+              {% ifequal status 'goods' %}
+                <div class="active tab-pane" id="shopgoods">
+              {% endifequal %}
+              {% ifequal status 'stores' %}
+                <div class="tab-pane" id="shopgoods">
+              {% endifequal %}
+
+              	<div class="row">
+			            <div class="col-xs-12">
+			              <div class="box" style="border-top:0px;">
+
+			                <div class="box-body table-responsive no-padding">
+			                <table class="table">
+                            <thead>
+                              <tr>
+                                <th>ID</th>
+                                <th>商品名称</th>
+                                <th>商品价格</th>
+                                <th>商品URL</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              {% for i in p.p_content %}
+                              <tr>
+                                <td>{{i.id}}</td>
+                                <td><a href="#" data-toggle="modal" data-target="#myModal" onclick="setModal('{{i.title}}','{{i.price}}','{{i.comment_degree}}','{{i.detail_url}}','{{i.pic_url}}')">{{i.title}}</a></td>
+                                <td>{{i.price}}</td>
+                                  <td><a target="href" href="{{i.detail_url}}">{{i.detail_url}}</a></td>
+                                  <!--<td><a target="href" href="{{i.pic_url}}">{{i.pic_url}}</a></td>-->
+                                <!--<td>Bacon ipsum dolor sit amet salami venison chicken flank fatback doner.</td>-->
+                              </tr>
+                              {% endfor %}
+                            </tbody>
+                      </table>
+                      <div>
+                        <div id="pagination_div1">
+                            <ul class="pagination" >
+                            共 <span  class="badge">{{p.p_count}}</span> 条记录，总 <span  class="badge">{{p.p_pages}}</span> 页，当前在<span class="badge">{{p.page}}</span>页
+                            </ul>
+                        </div>
+                        <div id="pagination_div2">
+                            <nav>
+                                <ul class="pagination" >
+                                    <li><a href="{%url 'ecommercedata' %}?taskid={{p.p_content.0.taskid}}&page={{p.p_previous}}">&laquo;</a></li>
+                                    <li> <a href="{%url 'ecommercedata' %}?taskid={{p.p_content.0.taskid}}&page=1">首页</a></li>
+                                        {% for i in p.p_range %}
+                                            <li  {% ifequal p.p_id i %} class="active" {% endifequal %}><a href="{%url 'ecommercedata' %}?taskid={{p.p_content.0.taskid}}&page={{i}}">{{i}}</a></li>
+                                        {% endfor %}
+                                    <li> <a href="{%url 'ecommercedata' %}?taskid={{p.p_content.0.taskid}}&page={{p.p_pages}}">尾页</a></li>
+                                    <li><a href="{%url 'ecommercedata' %}?taskid={{p.p_content.0.taskid}}&page={{p.p_next}}">&raquo;</a></li>
+                                </ul>
+                            </nav>
+                        </div>
+                      </div>
+			                <!-- 服务器分页结束 -->
+			                </div>
+			                <!-- /.box-body -->
+			              </div>
+			              <!-- /.box -->
+			            </div>
+			          </div>
+			          <!-- row -->
+              </div>
+              <!-- /.tab-pane -->
+              {% ifequal status 'goods' %}
+                <div class="tab-pane" id="shopstore">
+              {% endifequal %}
+              {% ifequal status 'stores' %}
+                <div class="active tab-pane" id="shopgoods">
+              {% endifequal %}
+
+                <div class="row">
+                  <div class="col-xs-12">
+                    <div class="box" style="border-top:0px;">
+                      <!-- <div class="box-header">
+                        <h3 class="box-title">Responsive Hover Table</h3>
+                      </div> -->
+                      <!-- /.box-header -->
+                      <div class="box-body table-responsive no-padding">
+                      <!-- 服务器分页开始 -->
+                      <table class="table">
+                            <thead>
+                              <tr>
+                                <th>ID</th>
+                                <th>店铺名称</th>
+                                <th>店铺URL</th>
+                                <th>评价</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              {% for i in p2.p_content %}
+                              <tr>
+                                <td>{{i.id}}</td>
+                                <td>{{i.name}}</td>
+                                <td>{{i.store_url}}</td>
+                                <td>{{i.comment_degree}}</td>
+                              {% endfor %}
+                            </tbody>
+                      </table>
+                      <div>
+                        <div id="pagination_div1">
+                            <ul class="pagination" >
+                            共 <span  class="badge">{{p2.p_count}}</span> 条记录，总 <span  class="badge">{{p2.p_pages}}</span> 页，当前在<span class="badge">{{p2.page}}</span>页
+                            </ul>
+                        </div>
+                        <div id="pagination_div2">
+                            <nav>
+                                <ul class="pagination" >
+                                    <li><a href="{%url 'ecommercedata' %}?taskid={{p2.p_content.0.taskid}}&page2={{p2.p_previous}}">&laquo;</a></li>
+                                    <li> <a href="{%url 'ecommercedata' %}?taskid={{p2.p_content.0.taskid}}&page2=1">首页</a></li>
+                                        {% for i in p2.p_range %}
+                                            <li  {% ifequal p2.p_id i %} class="active" {% endifequal %}><a href="{%url 'ecommercedata' %}?taskid={{p2.p_content.0.taskid}}&page2={{i}}">{{i}}</a></li>
+                                        {% endfor %}
+                                    <li> <a href="{%url 'ecommercedata' %}?taskid={{p2.p_content.0.taskid}}&page2={{p2.p_pages}}">尾页</a></li>
+                                    <li><a href="{%url 'ecommercedata' %}?taskid={{p2.p_content.0.taskid}}&page2={{p2.p_next}}">&raquo;</a></li>
+                                </ul>
+                            </nav>
+                        </div>
+                      </div>
+                      <!-- 服务器分页结束 -->
+                      </div>
+                      <!-- /.box-body -->
+                    </div>
+                    <!-- /.box -->
+                  </div>
+                </div>
+                <!-- row -->
+              </div>
+              <!-- /.tab-pane -->
+            </div>
+            <!-- /.tab-content -->
+          </div>
+          <!-- /.nav-tabs-custom -->
+        </div>
+{% endblock %}
+
+{% block script %}
+<script src="../../static/plugins/jQuery/jquery-2.2.3.min.js"></script>
+<script src="../../static/bootstrap/js/bootstrap.min.js"></script>
+<script src="../../static/dist/js/app.min.js"></script>
+<script src="../../static/dist/js/demo.js"></script>
+
+<script src="../../static/plugins/datatables/jquery.dataTables.min.js"></script>
+<script src="../../static/plugins/datatables/dataTables.bootstrap.min.js"></script>
+<script src="../../static/plugins/bootstrap3-editable/js/bootstrap-editable.min.js"></script>
+<script>
+    function setModal(title,price,comment,url,pic_url){
+        $('#myModalTitle').html('商品名：'+title);
+        $('#myModalPrice').html('价格：¥'+price);
+        $('#myModalComment').html('评价：'+comment);
+        $('#myModalLink').html(url);
+
+        $('#myModalLink').attr('href',url);
+        $("#myModalPic").attr('src',pic_url);
+        //$('#myModalPic').src(pic_url);
+   }
+
+
+  $(function () {
+    // $("#example1").DataTable();
+    $('#example1').DataTable({
+      "paging": true,
+      "lengthChange": false,
+      "searching": false,
+      "ordering": false,
+      "info": true,
+      "autoWidth": false
+    });
+
+
+  });
+
+  function changeStatus(id, status) {
+    $('#status_'+id).editable({
+        type: "select",
+        value: status,
+        source: [{ value: 'running', text: "运行" }, { value: 'pausing', text: "暂停" }, {value:'stopping',text:"停止"}],
+        emptytext: "空文本",       //空值的默认文本
+        mode: "popup",            //编辑框的模式：支持popup和inline两种模式，默认是popup
+        validate: function (value) { //字段验证
+            if(value=='running'){
+              $('#span_'+id).attr("class","label label-success")
+
+            }else if(value=='pausing'){
+              $('#span_'+id).attr("class","label label-warning")
+
+            }else if(value=='stopping'){
+              $('#span_'+id).attr("class","label label-primary")
+
+            }else{
+              return '不能为空';
+            }
+        },
+        url: function (params) {
+            return $.post('/crawlermanage/edittask/', {
+                op: params.value,
+                taskid: id,
+            }, function(data) {
+                if(data!=null) {
+                  page = "{{page}}"
+                  if(page==''){
+                    page = 1
+                  }
+                  if (data['status']=='success' && data['taskstatus']=='stopping') {
+                    location.href = '/crawlermanage/tasks?page='+page
+                  }
+                }
+            }, 'json');
+        }
+    });
+  }
+</script>
+{% endblock %}

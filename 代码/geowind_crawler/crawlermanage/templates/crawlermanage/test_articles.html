@@ -1,0 +1,190 @@
+{% extends "crawlermanage/index.html" %}
+{% block head %}
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>爬虫后台管理系统</title>
+<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+<!-- Bootstrap 3.3.6 -->
+<link rel="stylesheet" href="../../static/bootstrap/css/bootstrap.min.css">
+<link rel="stylesheet" href="../../static/style/font-awesome/css/font-awesome.min.css">
+<link rel="stylesheet" href="../../static/plugins/iCheck/flat/blue.css">
+<link rel="stylesheet" href="../../static/plugins/datatables/dataTables.bootstrap.css">
+<link rel="stylesheet" href="../../static/plugins/daterangepicker/daterangepicker.css">
+<link rel="stylesheet" href="../../static/plugins/select2/select2.min.css">
+<link rel="stylesheet" href="../../static/dist/css/AdminLTE.min.css">
+<link rel="stylesheet" href="../../static/dist/css/skins/_all-skins.min.css">
+<meta charset="UTF-8">
+<title>ECharts map Demo</title>
+<style>
+
+.col-center-block {
+     float: none;
+     display: block;
+     margin-left: auto;
+     margin-right: auto;
+}
+
+</style>
+</head>
+{% endblock %}
+{% block sidebar %}
+      <ul class="sidebar-menu">
+        <li class="header">主控面板</li>
+        <li>
+          <a href="{% url 'tasks' %}">
+            <i class="fa fa-dashboard"></i> <span>爬虫状态</span>
+          </a>
+        </li>
+        <li>
+          <a href="{%url 'layout'%}">
+            <i class="fa fa-tasks"></i> <span>布置任务</span>
+            <!-- <span class="pull-right-container">
+              <small class="label pull-right bg-green">new</small>
+            </span> -->
+          </a>
+        </li>
+          <li>
+          <a href="{% url 'machinelist' %}">
+            <i class="fa fa-medium"></i> <span>从机管理</span>
+          </a>
+        </li>
+        <li>
+          <a href="{% url 'processlist' %}">
+            <i class="fa fa-th-large"></i> <span>进程管理</span>
+          </a>
+        </li>
+        <li class="treeview">
+          <a href="#">
+            <i class="fa fa-sort-alpha-asc"></i> <span>自动结构</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li><a href="{%url 'extractsinger' %}"><i class="fa fa-circle-o"></i>正文抽取</a></li>
+            <li><a href="{%url 'extractmultiple' %}"><i class="fa fa-circle-o"></i>批量抽取</a></li>
+          </ul>
+        </li>
+        <li class="active treeview">
+          <a href="#">
+            <i class="fa fa-map-o"></i> <span>正文测试</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li><a href="{%url 'extractarticle' %}"><i class="fa fa-circle-o"></i>批量抽取</a></li>
+            <li class="active"><a href="{%url 'testarticles' %}"><i class="fa fa-circle-o"></i>批量测试</a></li>
+          <li><a href="{%url 'testsingle' %}"><i class="fa fa-circle-o"></i>单例测试</a ></li>
+          </ul>
+        </li>
+        <li>
+          <a href="{% url 'charts' %}">
+            <i class="fa fa-pie-chart"></i> <span>数据统计</span>
+          </a>
+        </li>
+        <li>
+          <a href="{% url 'introduce'%}">
+            <i class="fa fa-book"></i> <span>使用说明</span>
+          </a>
+        </li>
+
+        <li>
+          <a href="{% url 'settings' %}">
+            <i class="fa fa-cog"></i> <span>系统设置</span>
+          </a>
+        </li>
+      </ul>
+{% endblock %}
+{% block maincontent %}
+<div class="box box-primary">
+  <div class="box-header with-border">
+    <h3 class="box-title">准确率测试</h3>
+  </div>
+  <!-- /.box-header -->
+  <div class="box-body">
+
+     <div id="test_pre">
+        <div class="form-group">
+            <label>正文标准结果集路径</label>
+            <input id="original_folder" name="" type="text" class="form-control" placeholder="文件夹路径..." value="/home/haomao/work/zhongruanbei/right">
+        </div>
+        <div class="form-group">
+            <label>正文抽取结果集路径</label>
+            <input id="goal_folder" name="" type="text" class="form-control" placeholder="文件夹路径..." value="/home/haomao/work/zhongruanbei/test">
+        </div>
+
+    </div>
+    <span id="finished" style="color: red;display: none">路径输入有误</span>
+    <!-- <div id="test_loading" class="row col-center-block" style="display:none;">
+
+          <i class="fa fa-spinner fa-pulse fa-3x fa-fw  col-center-block"></i>
+          
+          <h5 class="col-center-block" style="width:130px">正在测试，请稍后...</h5>
+    </div> -->
+    <div id="test_res">
+        <div class="form-group">
+          <label>测试日志</label>
+          <textarea id="log" class="form-control" rows="10"  disabled=""></textarea>
+        </div>
+        <div class="form-group">
+          <label>准确率</label>
+          <input id="score" type="text" class="form-control" disabled="">
+        </div>
+    </div>
+  </div>
+
+
+  <div class="box-footer">
+    <button type="button" class="btn btn-primary pull-right" id="test_done" onclick="done_event()">测试</button>
+  </div>
+    <div id="test_loading" class="overlay" style="display:none;">
+        <i class="fa fa-refresh fa-spin"></i>
+    </div>
+</div>
+{% endblock %}
+
+{% block script %}
+
+<script src="../../static/plugins/jQuery/jquery-2.2.3.min.js"></script>
+<script src="../../static/bootstrap/js/bootstrap.min.js"></script>
+<script src="../../static/dist/js/app.min.js"></script>
+<script src="../../static/dist/js/demo.js"></script>
+<script src="../../static/plugins/datatables/jquery.dataTables.min.js"></script>
+<script src="../../static/plugins/datatables/dataTables.bootstrap.min.js"></script>
+<script src="../../static/plugins/select2/select2.full.min.js"></script>
+<script src="../../static/plugins/bootstrap3-editable/js/moment.js"></script>
+<script>
+function done_event(){
+
+    
+    
+
+    var goal_folder = $('#goal_folder').val();
+    var original_folder = $('#original_folder').val();
+    if(goal_folder =='' || original_folder=='') {
+      alert('输入不能为空');
+      return;
+    }
+    $('#test_loading').css('display','');
+    $.post('/crawlermanage/testarticles/', {original_folder:original_folder, goal_folder:goal_folder}, function(data) {
+        // $('#test_pre').css('display','none');
+        if(data!=null) {
+          if(data['error']=='error'){
+            $("#finished").css('display','');
+          } else {
+            $("#finished").css('display','none');
+            $('#log').text(data['log'])
+            $('#score').val(data['score'])
+          }
+          $('#test_loading').css('display','none');
+        }
+    }, 'json');
+    //一段时间后
+    //$('#test_res').css('display','');
+    //$('#test_loading').css('display','none');
+
+}
+</script>
+{% endblock %}

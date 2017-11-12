@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html>
+<head>
+   <title>Try Bootstrap Online</title>
+   <link rel="stylesheet" href="../../static/bootstrap/css/bootstrap.min.css">
+
+	<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="../../static/plugins/bootstrapTable/bootstrap-table.min.css">
+    <link rel="stylesheet" href="../../static/plugins/bootstrap3-editable/css/bootstrap-editable.css">
+
+<!-- Latest compiled and minified JavaScript -->
+
+
+</head>
+<body>
+<ul id="myTab" class="nav nav-tabs">
+   <li class="active"><a href="#home" data-toggle="tab">单例输入</a></li>
+   <li><a href="#ios" data-toggle="tab">批量输入</a></li>
+</ul>
+	<div class='box'>
+<div id="myTabContent" class="tab-content">
+   <div class="tab-pane fade in active" id="home">
+	   	<div class="form-group col-sm-10">
+		   <label>目标域名</label>
+     <input id="taskname" type="text" class="form-control" placeholder="输入任务名 ...">
+	   </div>
+	   <div class="form-group col-sm-2">
+		   <label>网站类型</label>
+		   <select class="form-control" id="webtype" onchange="webtypeChange()">
+			   <option value="ecommerce">电商（全网）</option>
+			   <option value="ecommerce_keywords">电商（关键字）</option>
+			   <option value="news">新闻</option>
+			   <option value="blog">博客</option>
+           </select>
+       </div>
+	   <div class="col-sm-offset-2 col-sm-10">
+           <button id="submit" type="button" class="btn btn-primary pull-right">确认</button>
+       </div>
+
+   </div>
+   <div class="tab-pane fade" id="ios">
+     	<label>目标域名</label>
+        <textarea id="keywords" class="form-control" rows="3" placeholder=""></textarea>
+	   <div class="form-group">
+		   <label>网站类型</label>
+		   <select class="form-control" id="webtype" onchange="webtypeChange()">
+			   <option value="ecommerce">电商（全网）</option>
+			   <option value="ecommerce_keywords">电商（关键字）</option>
+			   <option value="news">新闻</option>
+			   <option value="blog">博客</option>
+           </select>
+       </div>
+	   <div class="">
+           <button id="submit" type="button" class="btn btn-primary pull-right">确认</button>
+       </div>
+   </div>
+</div>
+	</div>
+<button id="button" class="btn btn-default">append</button>
+   <table id="table"
+           data-toolbar="#toolbar"
+           data-search="true"
+           data-show-refresh="true"
+           data-show-toggle="true"
+           data-show-columns="true"
+           data-show-export="true"
+           data-detail-view="true"
+           data-detail-formatter="detailFormatter"
+           data-minimum-count-columns="2"
+           data-show-pagination-switch="true"
+           data-pagination="true"
+           data-id-field="id"
+           data-page-list="[10, 25, 50, 100, ALL]"
+           data-show-footer="false"
+           >
+    </table>
+    <script src="../../static/plugins/jQuery/jquery-2.2.3.min.js"></script>
+<script src="../../static/bootstrap/js/bootstrap.min.js"></script>
+<script src="../../static/plugins/bootstrapTable/bootstrap-table.min.js"></script>
+
+<script src="../../static/plugins/bootstrapTable/bootstrap-table-editable.js"></script>
+<script src="../../static/plugins/bootstrap3-editable/js/bootstrap-editable.js"></script>
+<script>
+var $table = $('#table'),
+        $remove = $('#remove'),
+        selections = [];
+
+
+    function getHeight() {
+        return $(window).height() - $('h1').outerHeight(true);
+    }
+
+
+    function initTable() {
+        $("#table").bootstrapTable({
+            height: getHeight(),
+            columns: [
+
+					{
+                        title: 'ID',
+                        field: 'id',
+                        sortable: true,
+                        visible:false
+
+                    },
+                    {
+                        title: 'URL',
+                        field: 'url',
+                        sortable: true,
+                        editable: true
+
+                    },
+                    {
+                        field: 'type',
+                        title: '类型',
+                        sortable: true,
+                        align: 'center',
+                        editable: {
+                            type: 'select',
+                            value: status,
+							source:
+							[{ value: 'ecommerce_all', text: "电商(全网)" },
+							{ value: 'ecommerce_key', text: "电商(关键字)" },
+							{ value:'news',text:"新闻"},
+							{ value:'blogs',text:"博客"}],
+						}
+					},
+					{
+                        title: 'KEYWORD',
+                        field: 'keyword',
+                        editable: true
+
+                    },
+                    {
+                        field: 'action',
+                        title: '操作',
+                        align: 'center',
+                        events: operateEvents,
+                        formatter: operateFormatter
+                    }
+
+            ]
+        });
+
+    }
+
+    function operateFormatter(value, row, index) {
+        return [
+        	/*
+            '<a class="like" href="javascript:void(0)" title="Like">',
+            '<i class="glyphicon glyphicon-heart"></i>',
+            '</a>  ',*/
+            '<a class="remove" href="javascript:void(0)" title="Remove">',
+            '<i class="glyphicon glyphicon-remove"></i>',
+            '</a>'
+        ].join('');
+    }
+    window.operateEvents = {
+        'click .like': function (e, value, row, index) {
+            alert('You click like action, row: ' + JSON.stringify(row));
+        },
+        'click .remove': function (e, value, row, index) {
+            $table.bootstrapTable('remove', {
+                field: 'id',
+                values: [row.id]
+            });
+        }
+    };
+    var $button = $('#button');
+    $(function () {
+        initTable();
+        $button.click(function () {
+
+            $table.bootstrapTable('append',randomData());
+
+            $table.bootstrapTable('scrollTo', 'bottom');
+        });
+    });
+    function randomData() {
+        var random_id=100*Math.random();
+        row = {id:random_id,url:'https://www.baidu.com',keyword:'电脑','type':'ecommerce_all'}
+
+        return row;
+    }
+	</script>
+</body>
+</html>

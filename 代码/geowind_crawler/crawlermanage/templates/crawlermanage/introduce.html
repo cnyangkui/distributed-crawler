@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html>
+{% block head %}
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>爬虫后台管理系统</title>
+  <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+  <!-- Bootstrap 3.3.6 -->
+  <link rel="stylesheet" href="../../static/bootstrap/css/bootstrap.min.css">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="../../static/style/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" href="../../static/dist/css/AdminLTE.min.css">
+  <link rel="stylesheet" href="../../static/dist/css/skins/_all-skins.min.css">
+  <link rel="stylesheet" href="../../static/plugins/iCheck/flat/blue.css">
+</head>
+{% endblock %}
+
+<body class="hold-transition skin-blue sidebar-mini">
+<div class="wrapper">
+
+  <header class="main-header">
+    <!-- Logo -->
+    <a href="{%url 'index' %}" class="logo">
+      <!-- mini logo for sidebar mini 50x50 pixels -->
+      <!--<span class="logo-mini"><img src="../../static/imgs/logo_shape_only_shadow.png" height="50px" width="50px"></span>-->
+
+      <span class="logo-mini"><img src="../../static/imgs/logo.png" height="50px" width="50px"></span>
+      <!-- logo for regular state and mobile devices -->
+      <span class="logo-lg"><img src="../../static/imgs/logo.png" height="45px" width="45px" style="margin-top:-5px;"><b>分布式爬虫</b>后台</span>
+    </a>
+    <!-- Header Navbar: style can be found in header.less -->
+    <nav class="navbar navbar-static-top">
+      <!-- Sidebar toggle button-->
+      <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
+        <span class="sr-only">Toggle navigation</span>
+      </a>
+
+      <div class="navbar-custom-menu">
+        <ul class="nav navbar-nav">
+          <li class="dropdown messages-menu">
+           <a target="blank" href="http://123.207.230.48:8085/">Graphite监控</a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+  </header>
+  <!-- Left side column. contains the logo and sidebar -->
+  <aside class="main-sidebar">
+    <!-- sidebar: style can be found in sidebar.less -->
+    <section class="sidebar">
+      <!-- /.search form -->
+      <!-- sidebar menu: : style can be found in sidebar.less -->
+      {% block sidebar %}
+      <ul class="sidebar-menu">
+        <li class="header">主控面板</li>
+        <li>
+          <a href="{% url 'tasks' %}">
+            <i class="fa fa-dashboard"></i> <span>爬虫状态</span>
+          </a>
+        </li>
+        <li>
+          <a href="{%url 'layout'%}">
+            <i class="fa fa-tasks"></i> <span>布置任务</span>
+            <!-- <span class="pull-right-container">
+              <small class="label pull-right bg-green">new</small>
+            </span> -->
+          </a>
+        </li>
+        <li>
+          <a href="{% url 'machinelist' %}">
+            <i class="fa fa-medium"></i> <span>从机管理</span>
+          </a>
+        </li>
+        <li>
+          <a href="{% url 'processlist' %}">
+            <i class="fa fa-th-large"></i> <span>进程管理</span>
+          </a>
+        </li>
+        <li class="treeview">
+          <a href="#">
+            <i class="fa fa-sort-alpha-asc"></i> <span>自动结构</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li><a href="{%url 'extractsinger' %}"><i class="fa fa-circle-o"></i>正文抽取</a></li>
+            <li><a href="{%url 'extractmultiple' %}"><i class="fa fa-circle-o"></i>批量抽取</a></li>
+          </ul>
+        </li>
+        <li class="treeview">
+          <a href="#">
+            <i class="fa fa-map-o"></i> <span>正文测试</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li><a href="{%url 'extractarticle' %}"><i class="fa fa-circle-o"></i>批量抽取</a></li>
+            <li><a href="{%url 'testarticles' %}"><i class="fa fa-circle-o"></i>批量测试</a></li>
+            <li><a href="{%url 'testsingle' %}"><i class="fa fa-circle-o"></i>单例测试</a ></li>
+
+          </ul>
+        </li>
+        <li>
+          <a href="{% url 'charts' %}">
+            <i class="fa fa-pie-chart"></i> <span>数据统计</span>
+          </a>
+        </li>
+        <li class="active">
+          <a href="{% url 'introduce'%}">
+            <i class="fa fa-book"></i> <span>使用说明</span>
+          </a>
+        </li>
+
+        <li>
+          <a href="{% url 'settings' %}">
+            <i class="fa fa-cog"></i> <span>系统设置</span>
+          </a>
+        </li>
+      </ul>
+      {% endblock %}
+    </section>
+    <!-- /.sidebar -->
+  </aside>
+
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <h1>
+        仪表盘
+        <small>控制面板</small>
+      </h1>
+      <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> 主页</a></li>
+        <li class="active">仪表盘</li>
+        <li class="active">仪表盘</li>
+      </ol>
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+      {% block maincontent %}
+      <div class="box box-primary">
+          <div class="box-header with-border">
+            <h2 class="box-title">使用说明</h2>
+          </div>
+          <!-- /.box-header -->
+          <div class="box-body">
+              <section id="introduction">
+            <h2 class="page-header"><a href="#introduction"># 介绍</a></h2>
+            <p>
+              <b>分布式爬虫</b>是一个能够对电商、新闻、博客类网站进程自动结构化和信息抽取的爬虫。输入电商首页，能够自动分析导航栏、商品分页、商品详情页等；输入新闻、博客首页，能够自动获取文章标题、发布时间、正文、关键词等信息。
+            </p>
+            <p>
+              爬虫使用scrapy-redis框架，爬虫管理系统使用django搭建网站，通过web控制爬虫的行为。使用redis存储URL，对URL进行去重。爬虫任务可以分配到多台主机上，每台主机可以开启多个进程进行网页抓取，实现爬虫下载的高效和快速。爬虫拥有异常处理机制，爬虫由于异常中断后可以自动重启，重启后不会抓取到重复的URL。
+            </p>展示爬虫任务列表，包括当前任务和历史任务。在爬虫状态栏可以改变爬虫任务的状态（运行、暂停、停止）。结果中展示爬虫抓取的内容信息，详情中展示爬虫的详情信息。
+          </section>
+          <section id="spiderstatus" style="margin-top: 40px;">
+            <h2 class="page-header"><a href="#spiderstatus"># 爬虫状态</a></h2>
+            <p>展示爬虫任务列表，包括<b>当前任务</b>和<b>历史任务</b>。在爬虫状态栏可以改变爬虫任务的状态（运行、暂停、停止）。结果中展示爬虫抓取的内容信息，详情中展示爬虫任务的详情信息。</p>
+          </section>
+          <section id="publishtask" style="margin-top: 40px;">
+            <h2 class="page-header"><a href="#publishtask"># 布置任务</a></h2>
+            <p>布置爬虫任务。设置爬虫名、起始URL、待爬取网站类型（电商、新闻、博客）等，启动爬虫。还可以设置额外参数，设置爬虫启动时间和结束时间，爬虫到相应时间会自动启动和自动停止，设置主机IP，可以将爬虫任务分配到相应机器上。</p>
+          </section>
+          <section id="machine_manage" style="margin-top: 40px;">
+            <h2 class="page-header"><a href="#machine_manage"># 主机管理</a></h2>
+            <p>能够增加主机和删除主机。增加主机，能够将任务分配到更多的主机上，提高爬虫效率。</p>
+          </section>
+          <section id="process_manage" style="margin-top: 40px;">
+            <h2 class="page-header"><a href="#process_manage"># 进程管理</a></h2>
+            <p>展示所有主机中运行爬虫的进程信息。可以控制进程的状态：唤醒进程、挂起进程、终止进程。</p>
+          </section>
+          <section id="auto_extract" style="margin-top: 40px;">
+            <h2 class="page-header"><a href="#auto_extract"># 自动结构</a></h2>
+            <p><b>正文抽取</b>：输入一个URL，抽取页面数据。</p>
+            <p><b>批量抽取</b>：输入一批URL集合，选择页面类型，抽取页面数据</p>
+          </section>
+          <section id="article_test" style="margin-top: 40px;">
+            <h2 class="page-header"><a href="#article_test"># 正文测试</a></h2>
+            <p><b>批量抽取</b>：输入新闻或博客源数据路径和存储路径，从源数据中提取正文存储到指定路径。</p>
+            <p><b>批量测试</b>：输入标准结果路径和待测试正文路径，测试正文抽取的准确率。</p>
+            <p><b>单例测试</b>：输入标准结果文件路径和待测试文件路径，对比正文抽取结果。</p>
+          </section>
+          <section id="graphite" style="margin-top: 40px;">
+            <h2 class="page-header"><a href="#graphite"># Graphite监控</a></h2>
+            <p><b>Graphite</b>对所有爬虫任务进行监控。</p>
+          </section>
+          </div>
+          <!-- /.box-body -->
+        </div>
+        <div class="box-body">
+        </div>
+      {% endblock %}
+    </section>
+
+    <!-- /.content -->
+
+  </div>
+  <!-- /.content-wrapper -->
+  <footer class="main-footer">
+    <div class="pull-right hidden-xs">
+      <b>Version</b> 2.3.8
+    </div>
+    <strong>Copyright &copy; 2014-2016 <a href="http://almsaeedstudio.com">Almsaeed Studio</a>.</strong> All rights
+    reserved.
+  </footer>
+
+</div>
+<!-- ./wrapper -->
+
+{% block script %}
+<!-- jQuery 2.2.3 -->
+<script src="../../static/plugins/jQuery/jquery-2.2.3.min.js"></script>
+<!-- Bootstrap 3.3.6 -->
+<script src="../../static/bootstrap/js/bootstrap.min.js"></script>
+<!-- AdminLTE App -->
+<script src="../../static/dist/js/app.min.js"></script>
+<!-- AdminLTE for demo purposes -->
+<script src="../../static/dist/js/demo.js"></script>
+{% endblock %}
+
+</body>
+</html>
+

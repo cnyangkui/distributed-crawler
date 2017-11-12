@@ -1,0 +1,137 @@
+{% extends "crawlermanage/index.html" %}
+{% block head %}
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>爬虫后台管理系统</title>
+  <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+  <!-- Bootstrap 3.3.6 -->
+  <link rel="stylesheet" href="../../static/bootstrap/css/bootstrap.min.css">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="../../static/style/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" href="../../static/dist/css/AdminLTE.min.css">
+  <link rel="stylesheet" href="../../static/dist/css/skins/_all-skins.min.css">
+  <link rel="stylesheet" href="../../static/plugins/iCheck/flat/blue.css">
+
+  <link rel="stylesheet" href="../../static/plugins/datatables/dataTables.bootstrap.css">
+
+</head>
+{% endblock %}
+{% block maincontent %}
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content" style="border-radius:6px;">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+					&times;
+				</button>
+				<h4 class="modal-title" id="myModalLabel"></h4>
+                <h6 class="modal-title" id="myModalTime"></h6>
+                <h6 class="modal-title" id="myModalKeywords"></h6>
+			</div>
+			<div class="modal-body">
+				<p id="myModalArticle"></p>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+				<!--<button type="button" class="btn btn-primary">提交更改</button>-->
+			</div>
+		</div><!-- /.modal-content -->
+	</div><!-- /.modal -->
+</div>
+<section class="content">
+      <div class="row">
+        <div class="box">
+            <div class="box-header">
+              <h3 class="box-title">博客列表</h3>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+              <!-- 服务器分页开始 -->
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>标题</th>
+                    <th>url</th>
+                    <th>关键词</th>
+                    <th>时间</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for i in p.p_content %}
+                  <tr>
+                    <td>{{i.id}}</td>
+
+                    <td>
+                    <a href="#" data-toggle="modal" data-target="#myModal" onclick="setModel('{{i.title}}','{{i.time}}','{{i.keywords}}','{{i.article}}')">{{i.title}}</a>
+                    </td>
+
+                    <td><a href={{i.url}} target="_blank">{{i.url}}</a></td>
+                    <td>{{i.keywords}}</td>
+                    <td>{{i.time}}</td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+              <div>
+                <div id="pagination_div1">
+                    <ul class="pagination" >
+                    共 <span  class="badge">{{p.p_count}}</span> 条记录，总 <span  class="badge">{{p.p_pages}}</span> 页，当前在<span  class="badge">{{page}}</span>页
+                    </ul>
+                </div>
+                <div id="pagination_div2">
+                    <nav>
+                        <ul class="pagination" >
+                            <li><a href="{%url 'blogdata' %}?taskid={{p.p_content.0.taskid}}&page={{p.p_previous}}">&laquo;</a></li>
+                            <li> <a href="{%url 'blogdata' %}?taskid={{p.p_content.0.taskid}}&page=1">首页</a></li>
+                                {% for i in p.p_range %}
+                                    <li  {% ifequal p.p_id i %} class="active" {% endifequal %}><a href="{%url 'blogdata' %}?taskid={{p.p_content.0.taskid}}&page={{i}}">{{i}}</a></li>
+                                {% endfor %}
+                            <li> <a href="{%url 'blogdata' %}?taskid={{p.p_content.0.taskid}}&page={{p.p_pages}}">尾页</a></li>
+                            <li><a href="{%url 'blogdata' %}?taskid={{p.p_content.0.taskid}}&page={{p.p_next}}">&raquo;</a></li>
+                        </ul>
+                    </nav>
+                </div>
+              </div>
+              <!-- 服务器分页结束 -->
+            </div>
+
+            <!-- /.box-body -->
+          </div>
+        <!-- /.col -->
+      </div>
+      <!-- /.row -->
+    </section>
+{% endblock %}
+{% block script %}
+<script src="../../static/plugins/jQuery/jquery-2.2.3.min.js"></script>
+<script src="../../static/bootstrap/js/bootstrap.min.js"></script>
+<script src="../../static/dist/js/app.min.js"></script>
+<script src="../../static/dist/js/demo.js"></script>
+
+<script src="../../static/plugins/datatables/jquery.dataTables.min.js"></script>
+<script src="../../static/plugins/datatables/dataTables.bootstrap.min.js"></script>
+<script>
+
+
+  function setModel(title,time,keywords,article){
+    $('#myModalLabel').html('标题：'+title);
+    $('#myModalTime').html('发布日期：'+time);
+    $('#myModalKeywords').html('关键词：'+keywords);
+    $('#myModalArticle').html(article);
+
+  }
+  $(function () {
+    // $("#example1").DataTable();
+    $('#example1').DataTable({
+      "paging": true,
+      "lengthChange": false,
+      "searching": false,
+      "ordering": false,
+      "info": true,
+      "autoWidth": false
+    });
+  });
+</script>
+{% endblock %}

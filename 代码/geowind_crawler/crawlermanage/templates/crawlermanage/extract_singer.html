@@ -1,0 +1,163 @@
+{% extends "crawlermanage/index.html" %}
+{% block head %}
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>爬虫后台管理系统</title>
+  <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+  <!-- Bootstrap 3.3.6 -->
+  <link rel="stylesheet" href="../../static/bootstrap/css/bootstrap.min.css">
+  <link rel="stylesheet" href="../../static/style/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" href="../../static/plugins/iCheck/flat/blue.css">
+  <link rel="stylesheet" href="../../static/plugins/datatables/dataTables.bootstrap.css">
+  <link rel="stylesheet" href="../../static/plugins/daterangepicker/daterangepicker.css">
+  <link rel="stylesheet" href="../../static/plugins/select2/select2.min.css">
+  <link rel="stylesheet" href="../../static/dist/css/AdminLTE.min.css">
+  <link rel="stylesheet" href="../../static/dist/css/skins/_all-skins.min.css">
+  <style>
+	    body{
+	    	background-color: #eef2f6;
+	    }
+	    .col-center-block {
+	        float: none;
+	        display: block;
+	        margin-left: auto;
+	        margin-right: auto;
+	    }
+   </style>
+  <!-- <link rel="stylesheet" href="../../static/plugins/iCheck/all.css"> -->
+
+</head>
+{% endblock %}
+{% block sidebar %}
+      <ul class="sidebar-menu">
+        <li class="header">主控面板</li>
+        <li>
+          <a href="{% url 'tasks' %}">
+            <i class="fa fa-dashboard"></i> <span>爬虫状态</span>
+          </a>
+        </li>
+        <li class="active">
+          <a href="{%url 'layout'%}">
+            <i class="fa fa-tasks"></i> <span>布置任务</span>
+          </a>
+        </li>
+          <li>
+          <a href="{% url 'machinelist' %}">
+            <i class="fa fa-medium"></i> <span>从机管理</span>
+          </a>
+        </li>
+        <li>
+          <a href="{% url 'processlist' %}">
+            <i class="fa fa-th-large"></i> <span>进程管理</span>
+          </a>
+        </li>
+          <li class="treeview active">
+          <a href="#">
+            <i class="fa fa-sort-alpha-asc"></i> <span>自动结构</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li class="active"><a href="{%url 'extractsinger' %}"><i class="fa fa-circle-o"></i>正文抽取</a></li>
+            <li><a href="{%url 'extractmultiple' %}"><i class="fa fa-circle-o"></i>批量抽取</a></li>
+          </ul>
+        </li>
+        <li class="treeview">
+          <a href="#">
+            <i class="fa fa-map-o"></i> <span>正文测试</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li><a href="{%url 'extractarticle' %}"><i class="fa fa-circle-o"></i>批量抽取</a></li>
+            <li><a href="{%url 'testarticles' %}"><i class="fa fa-circle-o"></i>批量测试</a></li>
+            <li><a href="{%url 'testsingle' %}"><i class="fa fa-circle-o"></i>单例测试</a ></li>
+          </ul>
+        </li>
+        <li>
+          <a href="{% url 'charts' %}">
+            <i class="fa fa-pie-chart"></i> <span>数据统计</span>
+          </a>
+        </li>
+        <li>
+          <a href="{% url 'introduce'%}">
+            <i class="fa fa-book"></i> <span>使用说明</span>
+          </a>
+        </li>
+
+        <li>
+          <a href="{% url 'settings' %}">
+            <i class="fa fa-cog"></i> <span>系统设置</span>
+          </a>
+        </li>
+      </ul>
+{% endblock %}
+{% block maincontent %}
+ <div class="row">
+		<div class="col-md-10 col-center-block">
+
+          <div class="box box-primary">
+              <div class="modal-header">
+                <h4 class="box-title">正文抽取</h4>
+              </div>
+              <div class="box-body">
+                    <div class="form-group">
+                      <label for="test_url" class="col-sm-1 control-label">正文网页URL</label>
+                      <div class="col-sm-10">
+                        <input type="text" class="form-control" id="test_url" placeholder="请输入一个正文网页URL">
+
+                      </div>
+                    </div>
+              </div>
+              <div class="box-footer">
+                <button onclick="extract()" type="button" class="btn btn-primary pull-right">抽取</button>
+              </div>
+            </div><!-- /.modal-content -->
+
+            <div class="box box-primary">
+              <div class="modal-header">
+                <h4 class="box-title">文章详情</h4>
+              </div>
+              <div class="box-body">
+                    <h3 id='article_title'></h3>
+                    <h5 id='article_time'></h5>
+                    <h5 id='article_keywords'></h5>
+                    <div id="article_content" class="box-body">
+                          
+                    </div>
+              </div>
+            </div><!-- /.modal-content -->
+
+		  </div>
+	</div>
+{% endblock %}
+{% block script %}
+<!-- jQuery 2.2.3 -->
+<script src="../../static/plugins/jQuery/jquery-2.2.3.min.js"></script>
+<!-- Bootstrap 3.3.6 -->
+<script src="../../static/bootstrap/js/bootstrap.min.js"></script>
+<!-- AdminLTE App -->
+<script src="../../static/dist/js/app.min.js"></script>
+<!-- AdminLTE for demo purposes -->
+<script src="../../static/dist/js/demo.js"></script>
+<script type="text/javascript">
+    function extract() {
+      test_url = $('#test_url').val()
+      if(test_url.split()==''){
+        alert('输入不能为空')
+        return
+      }
+      $.post('/crawlermanage/extractsinger/', {test_url:test_url}, function(data) {
+        
+          $('#article_title').append('标题:'+data['title'])
+          $('#article_time').append('时间：'+data['time'])
+          $('#article_keywords').append('关键词：'+data['keywords'])
+          $('#article_content').append(data['content'])
+      },'json');
+    }
+
+</script>
+{% endblock %}

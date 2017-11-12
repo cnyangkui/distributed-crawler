@@ -1,0 +1,411 @@
+{% extends "crawlermanage/index.html" %}
+{% block head %}
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>爬虫后台管理系统</title>
+  <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+  <!-- Bootstrap 3.3.6 -->
+  <link rel="stylesheet" href="../../static/bootstrap/css/bootstrap.min.css">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="../../static/style/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" href="../../static/dist/css/AdminLTE.min.css">
+  <link rel="stylesheet" href="../../static/dist/css/skins/_all-skins.min.css">
+  <link rel="stylesheet" href="../../static/plugins/iCheck/flat/blue.css">
+</head>
+{% endblock %}
+{% block sidebar %}
+      <ul class="sidebar-menu">
+        <li class="header">主控面板</li>
+        <li>
+          <a href="{% url 'tasks' %}">
+            <i class="fa fa-dashboard"></i> <span>爬虫状态</span>
+          </a>
+        </li>
+        <li>
+          <a href="{%url 'layout'%}">
+            <i class="fa fa-tasks"></i> <span>布置任务</span>
+          </a>
+        </li>
+        <li>
+          <a href="{% url 'machinelist' %}">
+            <i class="fa fa-medium"></i> <span>从机管理</span>
+          </a>
+        </li>
+        <li>
+          <a href="{% url 'processlist' %}">
+            <i class="fa fa-th-large"></i> <span>进程管理</span>
+          </a>
+        </li>
+        <li class="treeview">
+          <a href="#">
+            <i class="fa fa-sort-alpha-asc"></i> <span>自动结构</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li><a href="{%url 'extractsinger' %}"><i class="fa fa-circle-o"></i>正文抽取</a></li>
+            <li><a href="{%url 'extractmultiple' %}"><i class="fa fa-circle-o"></i>批量抽取</a></li>
+          </ul>
+        </li>
+        <li class="treeview">
+          <a href="#">
+            <i class="fa fa-map-o"></i> <span>正文测试</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li class="active"><a href="{%url 'extractarticle' %}"><i class="fa fa-circle-o"></i>批量抽取</a></li>
+            <li><a href="{%url 'testarticles' %}"><i class="fa fa-circle-o"></i>批量测试</a></li>
+          <li><a href="{%url 'testsingle' %}"><i class="fa fa-circle-o"></i>单例测试</a ></li>
+          </ul>
+        </li>
+        <li class="active">
+          <a href="{% url 'charts' %}">
+            <i class="fa fa-pie-chart"></i> <span>数据统计</span>
+          </a>
+        </li>
+        <li>
+          <a href="{% url 'introduce'%}">
+            <i class="fa fa-book"></i> <span>使用说明</span>
+          </a>
+        </li>
+
+        <li>
+          <a href="{% url 'settings' %}">
+            <i class="fa fa-cog"></i> <span>系统设置</span>
+          </a>
+        </li>
+      </ul>
+{% endblock %}
+{% block maincontent %}
+<section class="content">
+
+      <div class="row">
+        <div class="col-md-6">
+          <!-- AREA CHART -->
+          <div class="box box-primary">
+            <div class="box-header with-border">
+              <h3 class="box-title">当前任务数量统计</h3>
+
+              <div class="box-tools pull-right">
+                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                </button>
+                <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+              </div>
+            </div>
+            <div class="box-body chart-responsive">
+              <div class="chart" id="chart1" style="height: 300px;"></div>
+            </div>
+            <!-- /.box-body -->
+          </div>
+        </div>
+          <!-- /.box -->
+        <div class="col-md-6">
+          <!-- DONUT CHART -->
+          <div class="box box-primary">
+            <div class="box-header with-border">
+              <h3 class="box-title">各类型历史爬虫任务数量所占比例</h3>
+
+              <div class="box-tools pull-right">
+                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                </button>
+                <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+              </div>
+            </div>
+            <div class="box-body chart-responsive">
+              <div class="chart" id="chart2" style="height: 300px; position: relative;"></div>
+            </div>
+            <!-- /.box-body -->
+          </div>
+          <!-- /.box -->
+        </div>
+        <!-- /.col (LEFT) -->
+        <div class="col-md-6">
+          <!-- LINE CHART -->
+          <div class="box box-primary">
+            <div class="box-header with-border">
+              <h3 class="box-title">最近一周各类型爬虫任务发布数量统计</h3>
+
+              <div class="box-tools pull-right">
+                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                </button>
+                <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+              </div>
+            </div>
+            <div class="box-body chart-responsive">
+              <div class="chart" id="chart3" style="height: 300px;"></div>
+            </div>
+            <!-- /.box-body -->
+          </div>
+          <!-- /.box -->
+        </div>
+        <div class="col-md-6">
+          <!-- BAR CHART -->
+          <div class="box box-primary">
+            <div class="box-header with-border">
+              <h3 class="box-title">每台主机运行的任务进程数量雷达图</h3>
+
+              <div class="box-tools pull-right">
+                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                </button>
+                <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+              </div>
+            </div>
+            <div class="box-body chart-responsive">
+              <div class="chart" id="chart4" style="height: 300px;"></div>
+            </div>
+            <!-- /.box-body -->
+          </div>
+          <!-- /.box -->
+
+        </div>
+        <!-- /.col (RIGHT) -->
+      </div>
+      <!-- /.row -->
+</section>
+{% endblock %}
+{% block script %}
+<script src="../../static/plugins/jQuery/jquery-2.2.3.min.js"></script>
+<!-- Bootstrap 3.3.6 -->
+<script src="../../static/bootstrap/js/bootstrap.min.js"></script>
+<script src="../../static/plugins/echarts/echarts.min.js"></script>
+<!--<script src="https://d3js.org/d3.v4.min.js"></script>-->
+<!-- AdminLTE App -->
+<script src="../../static/dist/js/app.min.js"></script>
+<!-- AdminLTE for demo purposes -->
+<script src="../../static/dist/js/demo.js"></script>
+<script type="text/javascript">
+  $(function() {
+    createchart1()
+    createchart2()
+    createchart3()
+    createchart4()
+  
+  })
+  function createchart1() {
+    var dom = document.getElementById("chart1");
+    var myChart = echarts.init(dom);
+    var app = {};
+    option = null;
+    app.title = '堆叠条形图';
+
+    option = {
+        tooltip : {
+            trigger: 'axis',
+            axisPointer : {            // 坐标轴指示器，坐标轴触发有效
+                type : 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+            }
+        },
+        legend: {
+            data: ['运行', '暂停','等待','故障']
+        },
+        grid: {
+            left: '3%',
+            right: '4%',
+            bottom: '3%',
+            containLabel: true
+        },
+        xAxis:  {
+            type: 'value'
+        },
+        yAxis: {
+            type: 'category',
+            data: ['新闻', '博客','电商']
+        },
+        series: [
+            {
+                name: '运行',
+                type: 'bar',
+                stack: '总量',
+                label: {
+                    normal: {
+                        show: false,
+                        position: 'insideRight'
+                    }
+                },
+                data: {{chart1.run|safe}}
+            },
+            {
+                name: '暂停',
+                type: 'bar',
+                stack: '总量',
+                label: {
+                    normal: {
+                        show: false,
+                        position: 'insideLeft'
+                    }
+                },
+                data: {{chart1.pause|safe}}
+            },
+            {
+                name: '等待',
+                type: 'bar',
+                stack: '总量',
+                label: {
+                    normal: {
+                        show: false,
+                        position: 'insideLeft'
+                    }
+                },
+                data: {{chart1.wait|safe}}
+            },
+            {
+                name: '故障',
+                type: 'bar',
+                stack: '总量',
+                label: {
+                    normal: {
+                        show: false,
+                        position: 'insideRight'
+                    }
+                },
+                data: {{chart1.error|safe}}
+            }
+        ]
+    };
+    if (option && typeof option === "object") {
+        myChart.setOption(option, true);
+      }
+  }
+
+  function createchart2() {
+    var dom = document.getElementById("chart2");
+    var myChart = echarts.init(dom);
+    var app = {};
+    
+    option = {
+        // title : {
+        //     text: '各类型爬虫任务数量所占比例',
+        //     x:'center'
+        // },
+        tooltip : {
+            trigger: 'item',
+            formatter: "{a} <br/>{b} : {c} ({d}%)"
+        },
+        legend: {
+            orient: 'vertical',
+            left: 'left',
+            data: ['电商','新闻','博客']
+        },
+        series : [
+            {
+                name: '访问来源',
+                type: 'pie',
+                radius : '55%',
+                center: ['50%', '60%'],
+                data:[
+                    {value:{{chart2.ecommerce|safe}}, name:'电商'},
+                    {value:{{chart2.news|safe}}, name:'新闻'},
+                    {value:{{chart2.blog|safe}}, name:'博客'}
+                ],
+                itemStyle: {
+                    emphasis: {
+                        shadowBlur: 10,
+                        shadowOffsetX: 0,
+                        shadowColor: 'rgba(0, 0, 0, 0.5)'
+                    }
+                }
+            }
+        ]
+    };
+    if (option && typeof option === "object") {
+        myChart.setOption(option, true);
+      }
+  }
+
+  function createchart3() {
+
+    var dom = document.getElementById("chart3");
+    var myChart = echarts.init(dom);
+    var app = {};
+    option = {
+        // title: {
+        //     text: 'Step Line'
+        // },
+        tooltip: {
+            trigger: 'axis'
+        },
+        legend: {
+            data:['电商','新闻','博客']
+        },
+        grid: {
+            left: '3%',
+            right: '4%',
+            bottom: '3%',
+            containLabel: true
+        },
+        toolbox: {
+            feature: {
+                saveAsImage: {}
+            }
+        },
+        xAxis: {
+            type: 'category',
+            data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+        },
+        yAxis: {
+            type: 'value'
+        },
+        series: [
+            {
+                name:'电商',
+                type:'line',
+                step: 'start',
+                data:{{chart3.ecommerce|safe}}
+            },
+            {
+                name:'新闻',
+                type:'line',
+                step: 'middle',
+                data:{{chart3.news|safe}}
+            },
+            {
+                name:'博客',
+                type:'line',
+                step: 'end',
+                data:{{chart3.blog|safe}}
+            }
+        ]
+    };
+    if (option && typeof option === "object") {
+        myChart.setOption(option, true);
+      }
+
+  }
+  function createchart4() {
+    var dom = document.getElementById("chart4");
+    var myChart = echarts.init(dom);
+    var app = {};
+    option = {
+        // title: {
+        //     text: '基础雷达图'
+        // },
+        tooltip: {},
+        legend: {
+            data: ['任务进程数量']
+        },
+        radar: {
+            // shape: 'circle',
+            indicator: {{chart4_ips|safe}}
+        },
+        series: [{
+            // name: '预算 vs 开销（Budget vs spending）',
+            type: 'radar',
+            // areaStyle: {normal: {}},
+            data : [
+                {
+                    value : {{chart4_processnum|safe}},
+                    name : '任务进程数量'
+                }
+            ]
+        }]
+    };
+    if (option && typeof option === "object") {
+        myChart.setOption(option, true);
+      }
+  }
+</script>
+{% endblock %}

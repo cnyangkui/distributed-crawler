@@ -1,0 +1,458 @@
+{% extends "crawlermanage/index.html" %}
+{% block head %}
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>爬虫后台管理系统</title>
+  <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+  <!-- Bootstrap 3.3.6 -->
+  <link rel="stylesheet" href="../../static/bootstrap/css/bootstrap.min.css">
+  <link rel="stylesheet" href="../../static/style/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" href="../../static/plugins/iCheck/flat/blue.css">
+  <link rel="stylesheet" href="../../static/plugins/datatables/dataTables.bootstrap.css">
+  <link rel="stylesheet" href="../../static/plugins/daterangepicker/daterangepicker.css">
+  <link rel="stylesheet" href="../../static/plugins/select2/select2.min.css">
+  <link rel="stylesheet" href="../../static/dist/css/AdminLTE.min.css">
+  <link rel="stylesheet" href="../../static/dist/css/skins/_all-skins.min.css">
+  <!-- <link rel="stylesheet" href="../../static/plugins/iCheck/all.css"> -->
+  <style>
+      .col-center-block {
+          float: none;
+          display: block;
+          margin-left: auto;
+          margin-right: auto;
+      }
+   </style>
+</head>
+{% endblock %}
+{% block sidebar %}
+      <ul class="sidebar-menu">
+        <li class="header">主控面板</li>
+        <li>
+          <a href="{% url 'tasks' %}">
+            <i class="fa fa-dashboard"></i> <span>爬虫状态</span>
+          </a>
+        </li>
+        <li class="active">
+          <a href="{%url 'layout'%}">
+            <i class="fa fa-tasks"></i> <span>布置任务</span>
+          </a>
+        </li>
+          <li>
+          <a href="{% url 'machinelist' %}">
+            <i class="fa fa-medium"></i> <span>从机管理</span>
+          </a>
+        </li>
+        <li>
+          <a href="{% url 'processlist' %}">
+            <i class="fa fa-th-large"></i> <span>进程管理</span>
+          </a>
+        </li>
+        <li class="treeview active">
+          <a href="#">
+            <i class="fa fa-sort-alpha-asc"></i> <span>自动结构</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li><a href="{%url 'extractsinger' %}"><i class="fa fa-circle-o"></i>正文抽取</a></li>
+            <li class="active"><a href="{%url 'extractmultiple' %}"><i class="fa fa-circle-o"></i>批量抽取</a></li>
+          </ul>
+        </li>
+        <li class="treeview">
+          <a href="#">
+            <i class="fa fa-map-o"></i> <span>正文测试</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li><a href="{%url 'extractarticle' %}"><i class="fa fa-circle-o"></i>批量抽取</a></li>
+            <li><a href="{%url 'testarticles' %}"><i class="fa fa-circle-o"></i>批量测试</a></li>
+            <li><a href="{%url 'testsingle' %}"><i class="fa fa-circle-o"></i>单例测试</a ></li>
+          </ul>
+        </li>
+        <li>
+          <a href="{% url 'charts' %}">
+            <i class="fa fa-pie-chart"></i> <span>数据统计</span>
+          </a>
+        </li>
+        <li>
+          <a href="{% url 'introduce'%}">
+            <i class="fa fa-book"></i> <span>使用说明</span>
+          </a>
+        </li>
+
+        <li>
+          <a href="{% url 'settings' %}">
+            <i class="fa fa-cog"></i> <span>系统设置</span>
+          </a>
+        </li>
+      </ul>
+{% endblock %}
+{% block maincontent %}
+<div class="box box-primary">
+          <div class="box-header with-border">
+            <h3 class="box-title">输入一批具有相同模板的URL集合，自动提取数据</h3>
+          </div>
+          <!-- /.box-header -->
+          <div class="box-body">
+            <!--<form action="/crawlermanage/layout/" method="post" role="form">{% csrf_token %}-->
+              <!-- text input -->
+              <div class="form-group">
+                <label>起始URL（有多个用回车分割，如下）</label>
+                <textarea id="starturls" class="form-control" rows="8" placeholder="https://www.geowind.com
+http://www.bootstrap.com"></textarea>
+                
+              </div>
+
+              <!-- select -->
+              <div class="form-group">
+                <label>网站类型</label>
+                <select class="form-control" id="webtype">
+                  <option value="article">新闻/博客</option>
+                  <option value="ecommerce_nav">电商(导航栏)</option>
+                  <option value="ecommerce_list">电商(商品列表)</option>
+                  <option value="ecommerce_detail">电商(商品页)</option>
+                </select>
+              </div>
+
+              </div>
+              <div class="box-footer">
+                <button id="submit" type="button" class="btn btn-primary pull-right">确认</button>
+              </div>
+            <!--</form>-->
+          </div>
+          <!-- /.box-body -->
+          <div class="box box-primary">
+              <div class="modal-header">
+                <h4 class="box-title">测试结果(点击链接查看详情)</h4>
+              </div>
+              <div class="box-body">
+                  <ul id="urls" style="list-style: none;">
+                    
+                  </ul>
+              </div>
+              <div id="test_loading" class="overlay" style="display:none;">
+                  <i class="fa fa-refresh fa-spin"></i>
+              </div>
+            </div><!-- /.modal-content -->
+        </div>
+        <div class="box-body">
+        </div>
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content" style="border-radius:6px;">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+          &times;
+        </button>
+        <h4 class="modal-title">电商详细页面</h4>
+                
+      </div>
+      <div class="modal-body">
+              <h4 class="modal-title" id="myModalTitle">商品名</h4>
+              <h4 class="modal-title" id="myModalPrice">价格</h4>
+              <h4 class="modal-title" id="myModalComment">评价</h4>
+              <h4 class="modal-title" >商品链接：<a id="myModalLink" target="_blank"></a></h4>
+
+              <br>
+              <h4 class="modal-title" >商品图片:</h4>
+              <img id = "myModalPic" src="" class="col-center-block">
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+        <!--<button type="button" class="btn btn-primary">提交更改</button>-->
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal -->
+</div>
+<div class="modal fade" id="newsModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content" style="border-radius:6px;">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+          &times;
+        </button>
+        <h4 class="modal-title" id="newsModalTitle"></h4>
+                <h6 class="modal-title" id="newsModalTime"></h6>
+                <h6 class="modal-title" id="newsModalKeywords"></h6>
+                <h6 class="modal-title" >正文链接：<a id="newsModalLink" target="_blank"></a></h6>
+      </div>
+      <div class="modal-body">
+        <p id="newsModalArticle"></p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+        <!--<button type="button" class="btn btn-primary">提交更改</button>-->
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal -->
+</div>
+<div class="modal fade" id="listModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+  <div class="modal-dialog" style="width:80%">
+    <div class="modal-content" style="border-radius:6px;">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+          &times;
+        </button>
+      </div>
+      <div class="modal-body">
+
+                <div class="row col-md-12" id='modal_list'>
+                </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal -->
+</div>
+
+<div class="modal fade" id="navModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content" style="border-radius:6px;">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+            &times;
+        </button>
+        <h4 class="modal-title" id="navModal_index_url"></h4>
+      </div>
+      <div class="modal-body" id="navModal_url_list">
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
+{% block script %}
+<script src="../../static/plugins/jQuery/jquery-2.2.3.min.js"></script>
+<script src="../../static/bootstrap/js/bootstrap.min.js"></script>
+<script src="../../static/dist/js/app.min.js"></script>
+<script src="../../static/dist/js/demo.js"></script>
+<script>
+
+
+   function set_goods_model(title,price,comment,url,pic_url){
+    console.log(title)
+    $('#myModalTitle').html('商品名：'+title);
+    $('#myModalPrice').html('价格：¥'+price);
+    $('#myModalComment').html('评价：'+comment);
+    $('#myModalLink').html(url);
+
+    $('#myModalLink').attr('href',url);
+    $("#myModalPic").attr('src',pic_url);
+    //$('#myModalPic').src(pic_url);
+   }
+   function set_news_model(title,time,keywords,url,article){
+    console.log(title)
+    $('#newsModalTitle').html(title);
+    $('#newsModalTime').html('时间：'+time);
+    $('#newsModalKeywords').html('关键词：'+keywords);
+    $('#newsModalLink').html(url);
+    $('#newsModalArticle').html(article);
+
+    $('#newsModalLink').attr('href',url);
+   }
+
+   function set_list_model(goods_list_str){
+
+    $('#modal_list').html('');
+
+    goods_list = goods_list_str.split('###');
+    list_len = goods_list_str.length;
+    console.log(list_len);
+
+    for(var i = 0;i<list_len;i++){
+
+        if(goods_list[i] == undefined || goods_list[i] == '') continue;
+        console.log(goods_list[i]);
+
+        tmp_list = goods_list[i].split('##');
+        title = tmp_list[0];
+        if(title!=undefined && title.length > 16){
+            title = title.substring(0,16) + '...';
+        }
+        price = tmp_list[1];
+        if(tmp_list[2] == undefined) continue;
+
+        url = tmp_list[2].replace('\r\n','').replace('\n','');
+
+        real_url = url
+        if(url!=undefined && url.length > 40){
+            url = url.substring(0,40) + '...';
+        }
+
+        if(tmp_list[3] == undefined) continue;
+
+        pic_url = tmp_list[3].replace('\r\n','').replace('\n','');;
+
+        goods_box_str = '<div class="col-md-3">\
+                      <div class="box box-default box-solid">\
+                        <div class="box-header with-border">\
+                          <h6 class="box-title">'+title+'</h6>\
+                          <div class="box-tools pull-right">\
+                            <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>\
+                            </button></div></div>\
+                        <div class="box-body">\
+                            <img src="'+pic_url+'"height="220px" width="220px">\
+                            <p>商品名：'+ title+'</p>\
+                            <p>价格：'+price+'</p>\
+                            <p>链接：<a href="'+real_url+'" target="_blank">'+url+'</a></p></div></div></div>'
+
+        $('#modal_list').append(goods_box_str);
+    }
+
+   }
+
+   function set_nav_model(nav_list_str,index_url){
+
+        $('#navModal_index_url').html(index_url);
+
+
+
+        nav_list_str = nav_list_str.replace('\n','');
+
+        $('#navModal_url_list').html('');
+        nav_list = nav_list_str.split('###');
+        list_len = nav_list.length;
+        console.log(list_len);
+
+        for(var i = 0;i<list_len;i++){
+
+            if(nav_list[i] == undefined) continue;
+
+            tmp_list = nav_list[i].split('##');
+
+            key = tmp_list[0]
+            url = tmp_list[1]
+            nav_line_str = '<p class="modal-title" >'+key+'：<a target="_blank" href="'+url+'">'+url+'</a ></p >'
+
+            $('#navModal_url_list').append(nav_line_str);
+        }
+
+
+   }
+
+
+
+
+
+
+  $("#submit").click(function() {
+    starturls = $('#starturls').val()
+    webtype = $('#webtype').val()
+    if(webtype=='' || starturls=='') {
+      alert('请完善信息...')
+      return
+    }
+    $('#test_loading').css('display','');
+    $.post('/crawlermanage/extractmultiple/', {
+      starturls:starturls,
+      webtype:webtype,
+    }, function(data) {
+      if(data!=null){
+        $('#urls').html('')
+        //alert(data['webtype'])
+        if(data['webtype']=='article') {
+          $('#urls').html('')
+          var title_list = data['title'].toString().split(',');
+          var time_list = data['time'].toString().split(',');
+          var keywords_list = data['keywords'].toString().split(',');
+          var url_list = data['urls'].toString().split(',');
+          var article_list = data['article'].toString().split(',');
+
+          var url_list_len = url_list.length;
+          for(var i=0; i<url_list_len; i++) {
+            console.log(url_list[i]+"")
+            //$('#urls').append("<li><a style='cursor:pointer;' target='blank' href='{%url 'temparticle'%}?id="+id_list[i]+"'>"+url_list[i]+"<a></li>")
+             $('#urls').append('<li><a href="#" data-toggle="modal" data-target="#newsModal" onclick="set_news_model(\''+title_list[i]+'\',\''+time_list[i]+'\',\''+keywords_list[i]+'\',\''+url_list[i]+'\',\''+article_list[i]+'\')">'+url_list[i]+'</a></li>');
+          }
+
+          $('#test_loading').css('display','none');
+            
+        }else if(data['webtype']=='ecommerce_detail'){
+          //ret = {'webtype': webtype,'title': title_list,'price':price_list,'pic_url':pic_url_list,'urls':url_list,'comment':comment_list}
+          //function set_goods_model(title,price,comment,url,pic_url)
+
+          $('#urls').html('')
+          var title_list = data['title'].toString().split(',');
+          var price_list = data['price'].toString().split(',');
+          var pic_url_list = data['pic_url'].toString().split(',');
+          var url_list = data['urls'].toString().split(',');
+          var comment_list = data['comment'].toString().split(',');
+
+
+          var url_list_len = url_list.length;
+
+
+          for(var i=0; i<url_list_len; i++) {
+
+            $('#urls').append('<li><a href="#" data-toggle="modal" data-target="#myModal" onclick="set_goods_model(\''+title_list[i]+'\',\''+price_list[i]+'\',\''+comment_list[i]+'\',\''+url_list[i]+'\',\''+pic_url_list[i]+'\')">'+url_list[i]+'</a></li>');
+
+          }
+          $('#test_loading').css('display','none');
+
+        }else if(data['webtype']=='ecommerce_nav'){
+            $('#urls').html('');
+          nav_list = data['nav_list'];
+           url_list = data['urls'];
+            url_list_len = url_list.length;
+           for(var i = 0 ;i<url_list_len;i++){
+                nav_list_len = nav_list[i].length;
+
+                var go_str = '' ;
+
+                for(var j =0;j<nav_list_len;j++){
+                    //console.log(nav_list[i][j][1]);
+                    key = nav_list[i][j][0];
+                    url = nav_list[i][j][1];
+                    go_str += key+'##' +url;
+                    if(j != nav_list_len-1)
+                        go_str +='###';
+                }
+                $('#urls').append('<li><a href="#" data-toggle="modal" data-target="#navModal" onclick="set_nav_model(\''+go_str+'\',\''+url_list[i]+'\')">'+url_list[i]+'</a></li>');
+
+           }
+           $('#test_loading').css('display','none');
+
+        }else{
+
+            $('#urls').html('');
+            res_goods_list = data['res_goods_list'];
+            url_list = data['urls'];
+            url_list_len = url_list.length;
+            for(var i = 0 ;i<url_list_len;i++){
+
+                if(res_goods_list[i] == null) continue;
+                res_goods_list_len = res_goods_list[i].length;
+
+                var go_str = '' ;
+
+                for(var j =0;j<res_goods_list_len;j++){
+                    var ob_ = res_goods_list[i][j];
+                    pic_url = (ob_.pic_url == '')?'None':ob_.pic_url;
+                    title = (ob_.title == '')?'None':ob_.title;
+
+                    go_str += title+'##'+ ob_.price + '##' + ob_.detail_url+'##'+pic_url;
+                    //console.log(title+'##'+ ob_.price + '##' + ob_.detail_url+'##'+pic_url);
+                    if(j != res_goods_list_len-1)
+                        go_str +='###';
+
+                }
+                $('#urls').append('<li><a href="#" data-toggle="modal" data-target="#listModal" onclick="set_list_model(\''+go_str+'\')">'+url_list[i]+'</a></li>');
+            }
+
+            $('#test_loading').css('display','none');
+        }
+      }
+    }, 'json')
+  });
+</script>
+{% endblock %}

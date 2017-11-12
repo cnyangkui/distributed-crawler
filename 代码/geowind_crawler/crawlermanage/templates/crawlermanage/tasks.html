@@ -1,0 +1,483 @@
+{% extends "crawlermanage/index.html" %}
+{% block head %}
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>爬虫后台管理系统</title>
+  <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+  <!-- Bootstrap 3.3.6 -->
+  <link rel="stylesheet" href="../../static/bootstrap/css/bootstrap.min.css">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="../../static/style/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" href="../../static/dist/css/AdminLTE.min.css">
+  <link rel="stylesheet" href="../../static/dist/css/skins/_all-skins.min.css">
+  <link rel="stylesheet" href="../../static/plugins/iCheck/flat/blue.css">
+
+  <link rel="stylesheet" href="../../static/plugins/datatables/dataTables.bootstrap.css">
+  <link rel="stylesheet" href="../../static/plugins/bootstrap3-editable/css/bootstrap-editable.css">
+</head>
+{% endblock %}
+{% block sidebar %}
+      <ul class="sidebar-menu">
+        <li class="header">主控面板</li>
+        <li class="active">
+          <a href="{% url 'tasks' %}">
+            <i class="fa fa-dashboard"></i> <span>爬虫状态</span>
+          </a>
+        </li>
+        <li>
+          <a href="{%url 'layout'%}">
+            <i class="fa fa-tasks"></i> <span>布置任务</span>
+            <!-- <span class="pull-right-container">
+              <small class="label pull-right bg-green">new</small>
+            </span> -->
+          </a>
+        </li>
+          <li>
+          <a href="{% url 'machinelist' %}">
+            <i class="fa fa-medium"></i> <span>从机管理</span>
+          </a>
+        </li>
+        <li>
+          <a href="{% url 'processlist' %}">
+            <i class="fa fa-th-large"></i> <span>进程管理</span>
+          </a>
+        </li>
+          <li class="treeview">
+          <a href="#">
+            <i class="fa fa-sort-alpha-asc"></i> <span>自动结构</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li><a href="{%url 'extractsinger' %}"><i class="fa fa-circle-o"></i>正文抽取</a></li>
+            <li><a href="{%url 'extractmultiple' %}"><i class="fa fa-circle-o"></i>批量抽取</a></li>
+          </ul>
+        </li>
+        <li class="treeview">
+          <a href="#">
+            <i class="fa fa-map-o"></i> <span>正文测试</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li><a href="{%url 'extractarticle' %}"><i class="fa fa-circle-o"></i>批量抽取</a></li>
+            <li><a href="{%url 'testarticles' %}"><i class="fa fa-circle-o"></i>批量测试</a></li>
+          <li><a href="{%url 'testsingle' %}"><i class="fa fa-circle-o"></i>单例测试</a ></li>
+          </ul>
+        </li>
+        <li>
+          <a href="{% url 'charts' %}">
+            <i class="fa fa-pie-chart"></i> <span>数据统计</span>
+          </a>
+        </li>
+        <li>
+          <a href="{% url 'introduce'%}">
+            <i class="fa fa-book"></i> <span>使用说明</span>
+          </a>
+        </li>
+
+        <li>
+          <a href="{% url 'settings' %}">
+            <i class="fa fa-cog"></i> <span>系统设置</span>
+          </a>
+        </li>
+      </ul>
+{% endblock %}
+{% block maincontent %}
+
+
+<!--<div class="box">-->
+
+    <div class="row">
+        <div class="col-md-3 col-sm-6 col-xs-12">
+          <div class="info-box">
+
+            <span class="info-box-icon bg-green"><i class="fa fa-play"></i></span>
+            <div class="info-box-content">
+              <span class="info-box-text">运行</span>
+              <span class="info-box-number">{{running_count}}</span>
+            </div>
+            <!-- /.info-box-content -->
+          </div>
+          <!-- /.info-box -->
+        </div>
+        <!-- /.col -->
+        <div class="col-md-3 col-sm-6 col-xs-12">
+          <div class="info-box">
+            <span class="info-box-icon bg-aqua"><i class="fa fa-pause"></i></span>
+            <div class="info-box-content">
+              <span class="info-box-text">暂停</span>
+              <span class="info-box-number">{{pausing_count}}</span>
+            </div>
+            <!-- /.info-box-content -->
+          </div>
+          <!-- /.info-box -->
+        </div>
+        <!-- /.col -->
+
+        <!-- fix for small devices only -->
+        <div class="clearfix visible-sm-block"></div>
+
+        <div class="col-md-3 col-sm-6 col-xs-12">
+          <div class="info-box">
+            <span class="info-box-icon bg-yellow"><i class="fa fa-stop"></i></span>
+            <div class="info-box-content">
+              <span class="info-box-text">停止</span>
+              <span class="info-box-number">{{stopping_count}}</span>
+            </div>
+            <!-- /.info-box-content -->
+          </div>
+          <!-- /.info-box -->
+        </div>
+        <!-- /.col -->
+        <div class="col-md-3 col-sm-6 col-xs-12">
+          <div class="info-box">
+
+            <span class="info-box-icon bg-red"><i class="fa fa-warning"></i></span>
+            <div class="info-box-content">
+              <span class="info-box-text">故障</span>
+              <span class="info-box-number">{{error_count}}</span>
+            </div>
+            <!-- /.info-box-content -->
+          </div>
+          <!-- /.info-box -->
+        </div>
+        <!-- /.col -->
+      </div>
+
+
+
+<!--</div>-->
+
+
+
+<div>
+          <div class="nav-tabs-custom">
+            <ul class="nav nav-tabs">
+                {% ifequal status 'currenttask' %}
+                <li class="active"><a href="#current_tasks" data-toggle="tab">当前任务</a></li>
+                <li><a href="#history_tasks" data-toggle="tab">历史任务</a></li>
+                {% endifequal %}
+                {% ifequal status 'historytask' %}
+                <li><a href="#current_tasks" data-toggle="tab">当前任务</a></li>
+                <li class="active"><a href="#history_tasks" data-toggle="tab">历史任务</a></li>
+                {% endifequal %}
+
+            </ul>
+            <div class="tab-content">
+                {% ifequal status 'currenttask' %}
+                <div class="active tab-pane" id="current_tasks">
+                {% endifequal %}
+                {% ifequal status 'historytask' %}
+                <div class="tab-pane" id="current_tasks">
+                {% endifequal %}
+
+
+
+                  <div class="row">
+			            <div class="col-xs-12">
+			              <div class="box" style="border-top:0px;">
+			                <!-- <div class="box-header">
+			                  <h3 class="box-title">Responsive Hover Table</h3>
+			                </div> -->
+			                <!-- /.box-header -->
+			                <div class="box-body table-responsive no-padding">
+			                <!-- 客户端分页 -->
+			                <!-- <table class="table table-hover">
+			                <tr>
+			                  <th>ID</th>
+			                  <th>启动时间</th>
+			                  <th>任务名</th>
+			                  <th>网站类型</th>
+			                  <th>描述</th>
+			                  <th>操作</th>
+			                </tr>
+        							{% for task in tasklist %}
+        							  <tr>
+        			                  <td>{{task.id}}</td>
+        			                  <td>{{task.starttime}}</td>
+        			                  <td>{{task.taskname}}</td>
+        			                  <td><span class="label label-success">正在运行</span></td>
+        			                  <td>Bacon ipsum dolor sit amet salami venison chicken flank fatback doner.</td>
+        							  <td><a href="{%url 'newsdata'%}">结果</a><span>-</span><a href="{%url 'taskdetail'%}">管理</a></td>
+        			                </tr>
+        							{% endfor %}
+			                
+  			              </table> -->
+  			              <!-- 客户端分页结束 -->
+  			              <!-- 服务器分页开始 -->
+			                <table class="table">
+                            <thead>
+                              <tr>
+                                <th>ID</th>
+                                <th>启动时间</th>
+                                <th>任务名</th>
+                                <th>网站类型</th>
+                                <th>进程数量</th>
+                                <th>爬虫状态</th>
+                                <th>操作</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              {% for i in p.p_content %}
+                              <tr>
+                                <td>{{i.id}}</td>
+                                <td>{{i.starttime}}</td></a></td>
+                                <td>{{i.taskname}}</td>
+                                <td>{% ifequal i.webtype 'news' %}
+                                新闻
+                                    {%endifequal%}
+                                {% ifequal i.webtype 'blog' %}
+                                博客
+                                    {%endifequal%}
+                                {% ifequal i.webtype 'ecommerce' %}
+                                电商
+                                {% endifequal %}</td>
+                                  <td>{{i.processnum}}</td>
+                                <td>
+                                    {% ifequal i.status 'running' %}
+                                    <span id="span_{{i.id}}" class="label label-success" >
+                                        <a href="#" id="status_{{i.id}}" class="editable editable-click" onclick="changeStatus('{{i.id}}', 'running')" style="color: white; text-decoration: none">运行</a>
+                                    </span>
+                                    {%endifequal%}
+                                    {% ifequal i.status 'pausing'  %}
+                                     <span id="span_{{i.id}}" class="label label-primary" >
+                                        <a href="#" id="status_{{i.id}}" class="editable editable-click" onclick="changeStatus('{{i.id}}', 'pausing')" style="color: white; text-decoration: none">暂停</a>
+                                     </span>
+                                    {%endifequal%}
+                                     {% ifequal i.status 'waitting'  %}
+                                     <span id="span_{{i.id}}" class="label label-warning" >
+                                        <a href="#" id="status_{{i.id}}" class="editable editable-click" onclick="changeStatus('{{i.id}}', 'waitting')" style="color: white; text-decoration: none">等待</a>
+                                     </span>
+                                    {% endifequal %}
+                                    {% ifequal i.status 'error' %}
+                                    <span id="span_{{i.id}}" class="label label-danger">
+                                        <a href="#" id="status_{{i.id}}" class="editable editable-click" onclick="changeStatus('{{i.id}}', 'error')" style="color: white; text-decoration: none">故障</a>
+                                    </span>
+                                    {% endifequal %}
+                                </td>
+                                <!--<td>Bacon ipsum dolor sit amet salami venison chicken flank fatback doner.</td>-->
+                                <td>
+                                    {%ifequal i.webtype 'ecommerce'%}
+                                    <a href="{%url 'ecommercedata'%}?taskid={{i.id}}">
+                                    {%endifequal%}
+                                    {%ifequal i.webtype 'news'%}
+                                    <a href="{%url 'newsdata'%}?taskid={{i.id}}">
+                                    {%endifequal%}
+                                    {%ifequal i.webtype 'blog'%}
+                                    <a href="{%url 'blogdata'%}?taskid={{i.id}}">
+                                    {%endifequal%}
+                                    结果</a><span>-</span><a href="{%url 'taskdetail'%}?taskid={{i.id}}">详情</a><span>-</span><a href="{%url 'export'%}?taskid={{i.id}}">导出</a></td>
+                              </tr>
+                              {% endfor %}
+                            </tbody>
+                      </table>
+                      <div>
+                        <div id="pagination_div1" class="form-inline">
+
+                            <ul class="pagination" >
+                            共 <span  class="badge">{{p.p_count}}</span> 条记录，总 <span  class="badge">{{p.p_pages}}</span> 页，当前在<span class="badge">{{p.page}}</span>页
+                            </ul>
+                        </div>
+                        <div id="pagination_div2">
+                            <nav>
+                                <ul class="pagination" >
+                                    <li><a href="{%url 'tasks' %}?page={{p.p_previous}}">&laquo;</a></li>
+                                    <li> <a href="{%url 'tasks' %}?page=1">首页</a></li>
+                                        {% for i in p.p_range %}
+                                            <li  {% ifequal p.p_id i %} class="active" {% endifequal %}><a href="{%url 'tasks' %}?page={{i}}">{{i}}</a></li>
+                                        {% endfor %}
+                                    <li> <a href="{%url 'tasks' %}?page={{p.p_pages}}">尾页</a></li>
+                                    <li><a href="{%url 'tasks' %}?page={{p.p_next}}">&raquo;</a></li>
+                                </ul>
+                            </nav>
+                        </div>
+                      </div>
+			                <!-- 服务器分页结束 -->
+			                </div>
+			                <!-- /.box-body -->
+			              </div>
+			              <!-- /.box -->
+			            </div>
+			          </div>
+			          <!-- row -->
+              </div>
+              <!-- /.tab-pane -->
+              {% ifequal status 'currenttask' %}
+                <div class="tab-pane" id="history_tasks">
+                {% endifequal %}
+                {% ifequal status 'historytask' %}
+                <div class="active tab-pane" id="history_tasks">
+                {% endifequal %}
+              <!--<div class="tab-pane" id="history_tasks">-->
+                <div class="row">
+                  <div class="col-xs-12">
+                    <div class="box" style="border-top:0px;">
+                      <!-- <div class="box-header">
+                        <h3 class="box-title">Responsive Hover Table</h3>
+                      </div> -->
+                      <!-- /.box-header -->
+                      <div class="box-body table-responsive no-padding">
+                      <!-- 服务器分页开始 -->
+                      <table class="table col-sm-10">
+                            <thead>
+                              <tr>
+                                <th>ID</th>
+                                <th>启动时间</th>
+                                <th>任务名</th>
+                                <th>网站类型</th>
+                                  <th>进程数量</th>
+                                <th>爬虫状态</th>
+                                <!--<th>描述</th>-->
+                                <th>操作</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              {% for i in p2.p_content %}
+                              <tr>
+                                <td>{{i.id}}</td>
+                                <td>{{i.starttime}}</td>
+                                <td>{{i.taskname}}</td>
+                                <td>{% ifequal i.webtype 'news' %}
+                                新闻
+                                    {%endifequal%}
+                                {% ifequal i.webtype 'blog' %}
+                                博客
+                                    {%endifequal%}
+                                {% ifequal i.webtype 'ecommerce' %}
+                                电商
+                                {% endifequal %}</td>
+                                  <td>{{i.processnum}}</td>
+                                <td>
+                                    {% ifequal i.status 'stopping' %}
+                                    <span id="span_{{i.id}}" class="label label-warning" >
+                                        <a href="#" id="status_{{i.id}}" class="editable editable-click" style="color: white; text-decoration: none">停止</a>
+                                    </span>
+                                    {% endifequal %}
+                                </td>
+                                <!--<td>Bacon ipsum dolor sit amet salami venison chicken flank fatback doner.</td>-->
+                                <td>
+
+                                    {%ifequal i.webtype 'ecommerce'%}
+                                    <a href="{%url 'ecommercedata'%}?taskid={{i.id}}">
+                                    {%endifequal%}
+                                    {%ifequal i.webtype 'news'%}
+                                    <a href="{%url 'newsdata'%}?taskid={{i.id}}">
+                                    {%endifequal%}
+                                    {%ifequal i.webtype 'blog'%}
+                                    <a href="{%url 'blogdata'%}?taskid={{i.id}}">
+                                    {%endifequal%}
+
+
+                                        结果</a><span>-</span><a href="{%url 'taskdetail'%}?taskid={{i.id}}">详情</a><span>-</span><a href="{%url 'export'%}?taskid={{i.id}}">导出</a></td>
+                              </tr>
+                              {% endfor %}
+                            </tbody>
+                      </table>
+
+                      <div>
+                        <div id="pagination_div1">
+                            <ul class="pagination" >
+                            共 <span  class="badge">{{p2.p_count}}</span> 条记录，总 <span  class="badge">{{p2.p_pages}}</span> 页，当前在<span class="badge">{{p2.page}}</span>页
+                            </ul>
+                        </div>
+                        <div id="pagination_div2">
+                            <nav>
+                                <ul class="pagination" >
+                                    <li><a href="{%url 'tasks' %}?page2={{p2.p_previous}}">&laquo;</a></li>
+                                    <li> <a href="{%url 'tasks' %}?page2=1">首页</a></li>
+                                        {% for i in p2.p_range %}
+                                            <li  {% ifequal p2.p_id i %} class="active" {% endifequal %}><a href="{%url 'tasks' %}?page2={{i}}">{{i}}</a></li>
+                                        {% endfor %}
+                                    <li> <a href="{%url 'tasks' %}?page2={{p2.p_pages}}">尾页</a></li>
+                                    <li><a href="{%url 'tasks' %}?page2={{p2.p_next}}">&raquo;</a></li>
+                                </ul>
+                            </nav>
+                        </div>
+
+                      </div>
+
+                      <!-- 服务器分页结束 -->
+                      </div>
+                      <!-- /.box-body -->
+                    </div>
+                    <!-- /.box -->
+                  </div>
+                </div>
+                <!-- row -->
+              </div>
+              <!-- /.tab-pane -->
+            </div>
+            <!-- /.tab-content -->
+          </div>
+          <!-- /.nav-tabs-custom -->
+        </div>
+{% endblock %}
+
+{% block script %}
+<script src="../../static/plugins/jQuery/jquery-2.2.3.min.js"></script>
+<script src="../../static/bootstrap/js/bootstrap.min.js"></script>
+<script src="../../static/dist/js/app.min.js"></script>
+<script src="../../static/dist/js/demo.js"></script>
+
+<script src="../../static/plugins/datatables/jquery.dataTables.min.js"></script>
+<script src="../../static/plugins/datatables/dataTables.bootstrap.min.js"></script>
+<script src="../../static/plugins/bootstrap3-editable/js/bootstrap-editable.min.js"></script>
+<script>
+  $(function () {
+    // $("#example1").DataTable();
+    $('#example1').DataTable({
+      "paging": true,
+      "lengthChange": false,
+      "searching": false,
+      "ordering": false,
+      "info": true,
+      "autoWidth": false
+    });
+
+  });
+
+  function changeStatus(id, status) {
+    $('#status_'+id).editable({
+        type: "select",
+        value: status,
+        source: [{ value: 'running', text: "运行" }, { value: 'pausing', text: "暂停" }, {value:'stopping',text:"停止"}],
+        emptytext: "空文本",       //空值的默认文本
+        mode: "popup",            //编辑框的模式：支持popup和inline两种模式，默认是popup
+        validate: function (value) { //字段验证
+            if(value=='running'){
+              $('#span_'+id).attr("class","label label-success")
+
+            }else if(value=='pausing'){
+              $('#span_'+id).attr("class","label label-primary")
+
+            }else if(value=='stopping'){
+              $('#span_'+id).attr("class","label label-warning")
+
+            }else{
+              return '不能为空';
+            }
+        },
+        url: function (params) { 
+            return $.post('/crawlermanage/edittask/', { 
+                op: params.value,
+                taskid: id,
+            }, function(data) {
+                if(data!=null) {
+                  page = "{{page}}"
+                  if(page==''){
+                    page = 1
+                  }
+                  if (data['status']=='success' && data['taskstatus']=='stopping') {
+                    location.href = '/crawlermanage/tasks?page='+page
+                  }
+                }
+            }, 'json'); 
+        }
+    });
+  }
+</script>
+{% endblock %}

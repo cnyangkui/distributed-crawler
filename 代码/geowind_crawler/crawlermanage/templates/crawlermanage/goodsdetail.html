@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>{{news.title}}</title>
+  <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+  <!-- Bootstrap 3.3.6 -->
+  <link rel="stylesheet" href="../../static/bootstrap/css/bootstrap.min.css">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="../../static/style/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" href="../../static/dist/css/AdminLTE.min.css">
+  <style>
+	    body{
+	    	background-color: #eef2f6;
+	    }
+	    .col-center-block {
+	        float: none;
+	        display: block;
+	        margin-left: auto;
+	        margin-right: auto;
+	    }
+   </style>
+</head>
+<body>
+
+    <div class="row">
+		<div class="col-md-6 col-center-block">
+			<nav class="navbar navbar-default" style="margin-bottom: 0px; background-color: white; ">
+		      <div class="container-fluid">
+		        <div class="navbar-header">
+		          	<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
+		              <span class="sr-only"></span>
+		              <span class="icon-bar"></span>
+		              <span class="icon-bar"></span>
+		              <span class="icon-bar"></span>
+            		</button>
+		          <a class="navbar-brand" href="index.aspx">商品详情</a>
+
+		        </div>
+		      </div>
+		    </nav>
+
+
+
+			<div class="box col-md-12 col-center-block" style="border-top: 0;">
+				<!-- 文章主体 -->
+				<div class="box box-primary" style="margin-bottom: 0px;">
+
+		            <div class="box-header with-border ">
+                        <br />
+		              	<h3 class="box-title">{{news.title}}</h3>
+		              	<h5>日期：{{news.time}}</h5>
+		              	<h5>关键词：{{news.keywords}}</h5>
+		            </div>
+		            <!-- /.box-header -->
+		            <!-- form start -->
+		              <div id="content" class="box-body" runat="server">
+							{% autoescape off %}
+							{{news.article}}
+							{% endautoescape %}
+
+					  </div>
+		              <!-- /.box-body -->
+
+		              <!--<div class="box-footer">-->
+		              	<!--<div id="author" style="float:right;" runat="server">编辑：xhh</div>-->
+		              <!--</div>-->
+		    	</div>
+				<!-- 分享 -->
+		    	<!--<div class="box" style="border-top:0; margin-bottom:0px;">-->
+		    		<!--<div class="text-center">-->
+	                <!--<a class="btn btn-social-icon btn-facebook"><i class="fa fa-qq"></i></a>-->
+	                <!--<a class="btn btn-social-icon btn-dropbox" style="background-color:#348903;"><i class="fa fa-weixin"></i></a>-->
+	                <!--<a class="btn btn-social-icon btn-twitter"><i class="fa fa-weibo"></i></a>-->
+	                <!--</div>-->
+		    	<!--</div>-->
+
+		    	<!-- 其他评论 -->
+
+		    	<!--<div class="box" style="border-top:0; margin-bottom:0px;" id ="commentList">-->
+
+					<!--<div class="direct-chat-msg">-->
+			            <!--<div class="direct-chat-info clearfix">-->
+			                <!--<span class="direct-chat-name pull-left">游客</span>-->
+			                <!--<span class="direct-chat-timestamp pull-right">2016年11月28日 22:20</span>-->
+			            <!--</div>-->
+			              <!--<img class="direct-chat-img" src="dist/img/user2-160x160.jpg" alt="message user image"/>-->
+			            <!--<div class="direct-chat-text">-->
+			                <!--我觉得这篇文章好。-->
+			            <!--</div>-->
+            		<!--</div>-->
+
+
+                    <!--<div class="direct-chat-msg">-->
+			            <!--<div class="direct-chat-info clearfix">-->
+			                <!--<span class="direct-chat-name pull-left">游客</span>-->
+			                <!--<span class="direct-chat-timestamp pull-right">2016年11月28日 22:20</span>-->
+			            <!--</div>-->
+			              <!--<img class="direct-chat-img" src="dist/img/user2-160x160.jpg" alt="message user image"/>-->
+			            <!--<div class="direct-chat-text">-->
+			                <!--我觉得这篇文章好。-->
+			            <!--</div>-->
+            		<!--</div>-->
+		    	<!--</div>-->
+
+			</div>
+		</div>
+	</div>
+	<script src="../../static/plugins/jQuery/jquery-2.2.3.min.js"></script>
+	<script src="../../static/bootstrap/js/bootstrap.min.js"></script>
+</body>
+</html>

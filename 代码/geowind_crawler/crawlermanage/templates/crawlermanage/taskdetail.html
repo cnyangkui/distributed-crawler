@@ -1,0 +1,279 @@
+{% extends "crawlermanage/index.html" %}
+{% block head %}
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>爬虫后台管理系统</title>
+  <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+  <!-- Bootstrap 3.3.6 -->
+  <link rel="stylesheet" href="../../static/bootstrap/css/bootstrap.min.css">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="../../static/style/font-awesome/css/font-awesome.min.css">
+  <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css"> -->
+  <!-- Ionicons -->
+  <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css"> -->
+  <link rel="stylesheet" href="../../static/dist/css/AdminLTE.min.css">
+  <link rel="stylesheet" href="../../static/dist/css/skins/_all-skins.min.css">
+  <link rel="stylesheet" href="../../static/plugins/iCheck/flat/blue.css">
+
+  <link rel="stylesheet" href="../../static/plugins/datatables/dataTables.bootstrap.css">
+
+  <link rel="stylesheet" href="../../static/plugins/bootstrap3-editable/css/bootstrap-editable.css">
+
+
+  <link rel="stylesheet" href="../../static/plugins/datepicker/datepicker3.css">
+  <link rel="stylesheet" href="../../static/plugins/timepicker/bootstrap-timepicker.min.css">
+
+</head>
+{% endblock %}
+{% block maincontent %}
+<div class="col-md-12">
+             
+      <div class="box box-primary box-solid">
+        <div class="box-header with-border">
+          <h3 class="box-title">基本信息</h3>
+
+          <div class="box-tools pull-right">
+            <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+            </button>
+          </div>
+          <!-- /.box-tools -->
+        </div>
+        <!-- /.box-header -->
+        <div class="box-body" style="display: block;">
+          <table class="table table-bordered table-striped">
+            <tbody>
+              <tr>
+                <th><label>任务ID</label></th>
+                <td>{{task.id}}</td>
+                <th><label>任务名</label></th>
+                <td>{{task.taskname}}</td>
+                <th><label>任务类型</label></th>
+                <td>{% ifequal task.webtype 'news' %}
+                    新闻
+                    {% endifequal %}
+                    {% ifequal task.webtype 'blog' %}
+                    博客
+                    {% endifequal %}
+                    {% ifequal task.webtype 'ecommerce' %}
+                    电商
+                    {% endifequal %}
+                </td>
+
+              </tr>
+              <tr>
+
+                <th><label>开始时间</label></th>
+                <td>{{task.starttime}}</td>
+                <th><label>结束时间</label></th>
+                <td>
+                <!-- <a href="#" id="end_time" class="editable editable-click editable-empty">自动停止，点击设置</a> -->
+                <!-- <a href="#" id="end_time" data-type="combodate" data-pk="1" data-url="/post" data-value="1984-05-15" data-title="Select date"></a> -->
+                {% if task.endtime %}
+                  {{task.endtime}}
+                  <!-- <a href="#" id="end_time" class="editable editable-click editable-empty" data-original-title="" title="">默认自动停止，点击设置</a> -->
+                  {% endif %}
+
+                   
+                </td>
+                <th><label>当前状态</label></th>
+                <!-- <td>
+                  <span class="label label-success" id="status_span">
+                    <a href="#" id="status_a" class="editable editable-click" style="color: white; ">正在运行</a>
+                  </span>
+                </td> -->
+                  <td>
+                    {% ifequal task.status 'running' %}
+                    <span id="span_{{task.id}}" class="label label-success" >
+                        <a href="#" id="status_{{task.id}}" class="editable editable-click" onclick="changeStatus('{{task.id}}', 'running')" style="color: white; text-decoration: none">运行</a>
+                    </span>
+                    {% endifequal %}
+                    {% ifequal task.status 'pausing'  %}
+                     <span id="span_{{task.id}}" class="label label-primary" >
+                        <a href="#" id="status_{{task.id}}" class="editable editable-click" onclick="changeStatus('{{task.id}}', 'pausing')" style="color: white; text-decoration: none">暂停</a>
+                     </span>
+                    {% endifequal %}
+                    {% ifequal task.status 'error' %}
+                    <span id="span_{{task.id}}" class="label label-danger">
+                        <a href="#" id="status_{{task.id}}" class="editable editable-click" onclick="changeStatus('{{task.id}}', 'error')" style="color: white; text-decoration: none">故障</a>
+                    </span>
+                    {% endifequal %}
+                    {% ifequal task.status 'stopping' %}
+                    <span id="span_{{task.id}}" class="label label-warning">
+                        <a href="#" id="status_{{task.id}}" class="editable editable-click" onclick="changeStatus('{{task.id}}', 'error')" style="color: white; text-decoration: none">停止</a>
+                    </span>
+                    {% endifequal %}
+                    </td>
+              </tr>
+              <tr>
+                <th><label>目标URL</label></th>
+                <td colspan="6">
+                <!-- 你自己修改一下。。。。 -->
+                  <!-- <a href="https://www.taobao.com" style="display: block;" target="_blank"> https://www.taobao.com</a>
+                  <a style="display: block;" target="_blank"> http://www.jd.com</a> -->
+                  {% for url in task.starturls %}
+                    <a href="{{url}}" style="display: block;" target="_blank">{{url}}</a>
+                  {% endfor %}
+
+                </td>
+              </tr>
+              <tr>
+                <th><label>主机</label></th>
+                <td colspan="6">
+                  {% for ip in task.slave %}
+                    <a href="{%url 'processlist'%}" style="display: block;">{{ip}}</a>
+                  {% endfor %}
+
+                </td>
+              </tr>
+              <tr>
+                <th><label>任务描述</label></th>
+                <td colspan="6">
+                  <textarea class="form-control" rows="3" placeholder="">{{task.describe}}</textarea>
+                </td>
+              </tr>
+              <tr>
+                <th><label>查看日志</label></th>
+                <td colspan="6">
+                  <a href="">任务编号.log</a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <!-- /.box-body -->
+      </div>
+      <!-- /.box -->
+      
+  <!-- /.tab-pane -->
+</div>
+          
+{% endblock %}
+{% block script %}
+<script src="../../static/plugins/jQuery/jquery-2.2.3.min.js"></script>
+<script src="../../static/bootstrap/js/bootstrap.min.js"></script>
+<script src="../../static/dist/js/app.min.js"></script>
+<script src="../../static/dist/js/demo.js"></script>
+
+<script src="../../static/plugins/datatables/jquery.dataTables.min.js"></script>
+<script src="../../static/plugins/datatables/dataTables.bootstrap.min.js"></script>
+
+<script src="../../static/plugins/bootstrap3-editable/js/bootstrap-editable.min.js"></script>
+<script src="../../static/plugins/bootstrap3-editable/js/moment.js"></script>
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
+
+<script src="../../static/plugins/datepicker/bootstrap-datepicker.js"></script>
+
+<script src="../../static/plugins/timepicker/bootstrap-timepicker.min.js"></script>
+<script>
+
+  function get_current_datetime() {
+      var date = new Date();
+      var seperator1 = "/";
+      var seperator2 = ":";
+      var month = date.getMonth() + 1;
+      var strDate = date.getDate();
+      if (month >= 1 && month <= 9) {
+          month = "0" + month;
+      }
+      if (strDate >= 0 && strDate <= 9) {
+          strDate = "0" + strDate;
+      }
+      var currentdate = date.getFullYear() + seperator1 + month + seperator1 + strDate
+              + " " + date.getHours() + seperator2 + date.getMinutes();
+              // + seperator2 + date.getSeconds();
+      return currentdate;
+  }
+  function get_current_date() {
+      var date = new Date();
+      var seperator1 = "/";
+      var seperator2 = ":";
+      var month = date.getMonth() + 1;
+      var strDate = date.getDate();
+      if (month >= 1 && month <= 9) {
+          month = "0" + month;
+      }
+      if (strDate >= 0 && strDate <= 9) {
+          strDate = "0" + strDate;
+      }
+      var currentdate = date.getFullYear() + seperator1 + month + seperator1 + strDate;
+              // + seperator2 + date.getSeconds();
+      return currentdate;
+  }
+  function get_current_year() {
+      var date = new Date();
+      return currentdate;
+  }
+
+
+  $(function () {
+    // $("#example1").DataTable();
+    $('#example1').DataTable({
+      "paging": true,
+      "lengthChange": false,
+      "searching": false,
+      "ordering": false,
+      "info": true,
+      "autoWidth": false
+    });
+  });
+
+  $(function(){
+    year = new Date().getFullYear();
+    $('#end_time').editable({
+        // format: 'YYYY-MM-DD',
+        // viewformat: 'DD.MM.YYYY',
+        // template: 'D / MMMM / YYYY',
+
+
+        value:get_current_date(),
+        type:'combodate',
+        template:'YYYY/MM/DD  HH:mm',
+        format:'YYYY/MM/DD HH:mm',
+        viewformat:'YYYY/MM/DD  HH:mm',
+        pk:'1',
+        title:'Setup event date and time',
+
+        combodate: {
+                minYear: year,
+                maxYear: year+1,
+                minuteStep: 1
+           }
+      });
+      // $('#status_a').editable({
+
+      //   type: "select",
+      //   value:1,
+      //   source: [{ value: 1, text: "正在运行" }, { value: 2, text: "等待运行" }, {value:3,text:"任务结束"}],
+
+      //   emptytext: "空文本",       //空值的默认文本
+      //   mode: "popup",            //编辑框的模式：支持popup和inline两种模式，默认是popup
+      //   validate: function (value) { //字段验证
+      //       // if (!$.trim(value)) {
+      //           // return '不能为空';
+      //       if(value==1){
+      //         $('#status_span').attr("class","label label-success")
+
+      //       }else if(value==2){
+      //         $('#status_span').attr("class","label label-warning")
+
+      //       }else if(value==3){
+      //         $('#status_span').attr("class","label label-primary")
+
+      //       }else{
+      //         return '不能为空';
+      //       }
+      //   }
+
+      // });
+      
+      // $('#comments').editable({
+      //   url: '/post',
+      //   placement:'right',
+      //   title: 'Enter comments',
+      //   rows: 10
+      // });
+  });
+</script>
+{% endblock %}
