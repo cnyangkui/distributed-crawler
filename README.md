@@ -5,8 +5,6 @@
 ------
 
 **GeoSpider** 是一款适用于结构化抓取新闻博客、电商类网站的分布式爬虫。系统可对新闻网站，绝大多数的博客和电商网站进行数据自动摘录。采用多进程辅佐分布式的并发方式，提高采集效率。总体使用Psutil进行进程、Scrapy-Redis作分布式与管理、MonoDB作数据存储。爬虫任务可设定启动时间、结束时间、选择主机IP、进程数量等。爬虫代码分为两部分，bigcrawler和geowind_crawler，bigcrawler为爬虫应用，部署在每台分布式从机上，geowind_crawler为爬虫管理系统的Web应用，部署在一台服务器上即可，两者基于Redis的发布订阅进行通信，实现Web应用对爬虫应用的管理。
-#### 项目部署地址[http://123.207.230.48/crawlermanage/]
-用户名：admin   密码：a
 
 #### 视频链接 [ http://www.bilibili.com/video/av12055194/ ]
 如弹幕影响观看，可关闭弹幕观看
